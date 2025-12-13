@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useMemo } from 'react';
 import { motion, useScroll, useTransform } from 'framer-motion';
 import { Button } from './Button';
 import { ChevronDown, ArrowLeft, Rocket, Sparkles } from 'lucide-react';
@@ -8,23 +8,52 @@ export const Hero: React.FC = () => {
   const opacity = useTransform(scrollY, [0, 300], [1, 0]);
   const yRange = useTransform(scrollY, [0, 500], [0, 200]);
 
+  // Generate stars once to avoid re-calculation on render (Performance Optimization)
+  const stars = useMemo(() => {
+    return Array.from({ length: 40 }).map((_, i) => ({
+      id: i,
+      top: `${Math.floor(Math.random() * 100)}%`,
+      left: `${Math.floor(Math.random() * 100)}%`,
+      size: Math.random() > 0.8 ? 2 : 1, // Mostly small dots, occasional larger stars
+      delay: Math.random() * 5,
+      duration: Math.random() * 3 + 2,
+    }));
+  }, []);
+
   return (
     <div className="relative min-h-screen flex items-center justify-center overflow-hidden bg-slate-950 selection:bg-cyan-500/30">
       
-      {/* --- BACKGROUND EFFECTS (CSS Only for Performance) --- */}
+      {/* --- BACKGROUND EFFECTS --- */}
       <div className="absolute inset-0 z-0">
         
         {/* 1. Cyber Grid */}
         <div className="absolute inset-0 bg-[linear-gradient(to_right,#8080800a_1px,transparent_1px),linear-gradient(to_bottom,#8080800a_1px,transparent_1px)] bg-[size:24px_24px] [mask-image:radial-gradient(ellipse_80%_50%_at_50%_0%,#000_70%,transparent_100%)]" />
         
-        {/* 2. Ambient Color Glows (Static/CSS Pulse) */}
+        {/* 2. Twinkling Stars (Lightweight CSS Animation) */}
+        {stars.map((star) => (
+            <div
+                key={star.id}
+                className="absolute bg-white rounded-full animate-[twinkle_ease-in-out_infinite]"
+                style={{
+                    top: star.top,
+                    left: star.left,
+                    width: `${star.size}px`,
+                    height: `${star.size}px`,
+                    opacity: 0, // Start invisible, animation handles opacity
+                    animationDelay: `${star.delay}s`,
+                    animationDuration: `${star.duration}s`
+                }}
+            />
+        ))}
+
+        {/* 3. Ambient Color Glows (Static/CSS Pulse) */}
         <div className="absolute top-[-10%] left-[-5%] w-[40vw] h-[40vw] bg-purple-600/10 rounded-full blur-[120px] mix-blend-screen animate-pulse duration-1000" />
         <div className="absolute bottom-[-10%] right-[-5%] w-[40vw] h-[40vw] bg-cyan-600/10 rounded-full blur-[120px] mix-blend-screen animate-pulse duration-[4s]" />
 
-        {/* 3. Scanner Line (CSS Animation) */}
+        {/* 4. Scanner Line (CSS Animation) */}
         <div className="absolute inset-x-0 top-0 h-px bg-gradient-to-r from-transparent via-cyan-500/50 to-transparent w-full animate-[scan_8s_ease-in-out_infinite] opacity-50 shadow-[0_0_15px_rgba(6,182,212,0.5)]" />
 
-        {/* 4. Floating Particles (Lightweight DOM elements) */}
+        {/* 5. Floating Particles (Lightweight DOM elements) */}
         {[...Array(6)].map((_, i) => (
             <motion.div
                 key={i}
@@ -141,7 +170,7 @@ export const Hero: React.FC = () => {
         <ChevronDown size={32} />
       </motion.div>
 
-      {/* Inline Styles for Custom Keyframe Animations (Tailwind arbitrary values are sometimes limited) */}
+      {/* Inline Styles for Custom Keyframe Animations */}
       <style>{`
         @keyframes scan {
             0% { top: 0%; opacity: 0; }
@@ -152,6 +181,11 @@ export const Hero: React.FC = () => {
         @keyframes textShine {
             0% { background-position: 0% 50%; }
             100% { background-position: 200% 50%; }
+        }
+        @keyframes twinkle {
+            0% { opacity: 0; transform: scale(0.5); }
+            50% { opacity: 0.8; transform: scale(1.2); box-shadow: 0 0 4px rgba(255, 255, 255, 0.4); }
+            100% { opacity: 0; transform: scale(0.5); }
         }
       `}</style>
     </div>

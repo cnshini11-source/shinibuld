@@ -38,7 +38,7 @@ export const Header: React.FC = () => {
             {/* Simple static glow on hover instead of continuous pulse */}
             <div className="absolute inset-0 bg-cyan-400/20 blur-lg rounded-full opacity-0 group-hover:opacity-100 transition-opacity duration-300" />
             
-            <Rocket className="text-cyan-400 w-10 h-10 relative z-10 transform group-hover:-translate-y-1 group-hover:-translate-x-1 transition-transform duration-300" />
+            <Rocket className="text-cyan-400 w-10 h-10 relative z-10 transform group-hover:-rotate-45 transition-transform duration-300" />
           </div>
 
           {/* Text */}
