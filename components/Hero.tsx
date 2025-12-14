@@ -1,7 +1,7 @@
 import React, { useMemo } from 'react';
 import { motion, useScroll, useTransform } from 'framer-motion';
 import { Button } from './Button';
-import { ChevronDown, ArrowLeft, Rocket, Sparkles } from 'lucide-react';
+import { ChevronDown, ArrowLeft, Sparkles } from 'lucide-react';
 
 export const Hero: React.FC = () => {
   const { scrollY } = useScroll();
@@ -119,65 +119,92 @@ export const Hero: React.FC = () => {
                 initial={{ opacity: 0, x: -50 }}
                 animate={{ opacity: 1, x: 0 }}
                 transition={{ duration: 1, delay: 0.2 }}
-                className="hidden lg:flex relative w-full h-[600px] order-2 items-center justify-center"
+                className="hidden lg:flex relative w-full h-[700px] order-2 items-center justify-center"
             >
-                <div className="relative flex flex-col items-center justify-end h-full w-full pb-20">
+                <div className="relative flex flex-col items-center justify-end h-full w-full">
                     
-                    {/* SVG Definitions */}
-                    <svg width="0" height="0">
-                        <defs>
-                        <linearGradient id="hullGradient" x1="0" y1="0" x2="1" y2="1">
-                            <stop offset="0%" stopColor="#22d3ee" /> {/* Cyan */}
-                            <stop offset="50%" stopColor="#3b82f6" /> {/* Blue */}
-                            <stop offset="100%" stopColor="#818cf8" /> {/* Indigo */}
-                        </linearGradient>
-                        <linearGradient id="fireGradient" x1="0" y1="0" x2="0" y2="1">
-                            <stop offset="0%" stopColor="#fbbf24" /> {/* Amber */}
-                            <stop offset="50%" stopColor="#f97316" /> {/* Orange */}
-                            <stop offset="100%" stopColor="#ef4444" stopOpacity="0" /> {/* Red Transparent */}
-                        </linearGradient>
-                        </defs>
-                    </svg>
-
-                    {/* Rocket Body */}
+                    {/* Rocket Wrapper - Floating High */}
                     <motion.div
-                        animate={{ y: [-5, 5, -5] }}
-                        transition={{ duration: 4, repeat: Infinity, ease: "easeInOut" }}
-                        className="relative z-20 w-80 h-80"
+                        animate={{ y: [-15, 15, -15] }}
+                        transition={{ duration: 5, repeat: Infinity, ease: "easeInOut" }}
+                        className="relative z-20 w-48 mb-32" // Increased bottom margin for distance
                     >
-                         <Rocket 
-                            className="w-full h-full drop-shadow-[0_0_50px_rgba(6,182,212,0.4)]"
-                            strokeWidth={1}
-                            stroke="rgba(255,255,255,0.5)"
-                            fill="url(#hullGradient)"
-                        />
-                        {/* Highlights/Reflections on Rocket */}
-                        <div className="absolute top-1/4 left-1/2 -translate-x-1/2 w-8 h-20 bg-white/10 blur-xl rounded-full" />
+                        {/* Custom Realistic Rocket SVG */}
+                        <svg viewBox="0 0 200 400" className="w-full h-full drop-shadow-[0_0_30px_rgba(6,182,212,0.3)]">
+                            <defs>
+                                <linearGradient id="bodyMetal" x1="0" y1="0" x2="1" y2="0">
+                                    <stop offset="0%" stopColor="#334155" />
+                                    <stop offset="50%" stopColor="#94a3b8" />
+                                    <stop offset="55%" stopColor="#cbd5e1" />
+                                    <stop offset="100%" stopColor="#334155" />
+                                </linearGradient>
+                                <linearGradient id="finMetal" x1="0" y1="0" x2="1" y2="0">
+                                    <stop offset="0%" stopColor="#1e293b" />
+                                    <stop offset="100%" stopColor="#475569" />
+                                </linearGradient>
+                                <linearGradient id="windowGrad" x1="0" y1="0" x2="1" y2="1">
+                                    <stop offset="0%" stopColor="#06b6d4" />
+                                    <stop offset="100%" stopColor="#0891b2" />
+                                </linearGradient>
+                            </defs>
+                            
+                            {/* Left Fin */}
+                            <path d="M40 300 L0 380 L60 360 Z" fill="url(#finMetal)" stroke="#1e293b" strokeWidth="1" />
+                            {/* Right Fin */}
+                            <path d="M160 300 L200 380 L140 360 Z" fill="url(#finMetal)" stroke="#1e293b" strokeWidth="1" />
+                            
+                            {/* Main Body */}
+                            <path d="M100 0 Q160 80 160 250 L160 350 L40 350 L40 250 Q40 80 100 0 Z" fill="url(#bodyMetal)" />
+                            
+                            {/* Vertical Stripe/Detail */}
+                            <path d="M100 0 L100 350" stroke="rgba(0,0,0,0.1)" strokeWidth="1" />
+                            
+                            {/* Cockpit Window */}
+                            <circle cx="100" cy="100" r="25" fill="#1e293b" stroke="#475569" strokeWidth="4" />
+                            <circle cx="100" cy="100" r="20" fill="url(#windowGrad)" className="animate-pulse" />
+                            <circle cx="108" cy="92" r="5" fill="white" opacity="0.6" />
+
+                            {/* Engine Nozzle */}
+                            <path d="M70 350 L60 370 L140 370 L130 350 Z" fill="#1e293b" />
+                        </svg>
+
+                         {/* ENGINE FIRE - Long Trail */}
+                         <div className="absolute top-[98%] left-1/2 -translate-x-1/2 z-10 flex flex-col items-center">
+                             {/* Core White Hot */}
+                             <motion.div 
+                                animate={{ height: [60, 80, 50, 90, 60], opacity: [0.9, 1, 0.8] }}
+                                transition={{ duration: 0.15, repeat: Infinity }}
+                                className="w-12 bg-white blur-[4px] rounded-full"
+                             />
+                             {/* Middle Orange */}
+                             <motion.div 
+                                animate={{ height: [150, 180, 140], opacity: [0.7, 0.9, 0.7] }}
+                                transition={{ duration: 0.2, repeat: Infinity }}
+                                className="absolute top-2 w-16 bg-gradient-to-b from-yellow-300 via-orange-500 to-transparent blur-[8px] rounded-full"
+                             />
+                             {/* Outer Glow */}
+                             <motion.div 
+                                animate={{ height: [200, 240, 190], opacity: [0.3, 0.5, 0.3] }}
+                                transition={{ duration: 0.3, repeat: Infinity }}
+                                className="absolute top-4 w-24 bg-gradient-to-b from-orange-600/50 to-transparent blur-[20px] rounded-full"
+                             />
+                        </div>
                     </motion.div>
 
-                    {/* Fire / Exhaust Animation */}
-                    <div className="absolute bottom-[8.5rem] z-10 flex justify-center">
-                         {/* Core Heat */}
-                         <motion.div 
-                            animate={{ scaleY: [1, 1.2, 0.9, 1.3, 1], opacity: [0.8, 1, 0.7, 1, 0.8] }}
-                            transition={{ duration: 0.2, repeat: Infinity, repeatType: "reverse" }}
-                            className="w-16 h-32 bg-gradient-to-b from-yellow-300 via-orange-500 to-transparent blur-md rounded-b-full origin-top"
-                         />
-                         {/* Outer Glow */}
-                         <motion.div 
-                            animate={{ scale: [1, 1.1, 1], opacity: [0.3, 0.5, 0.3] }}
-                            transition={{ duration: 0.5, repeat: Infinity }}
-                            className="absolute top-0 w-32 h-40 bg-orange-500/30 blur-2xl rounded-full origin-top"
-                         />
-                    </div>
-
-                    {/* Launchpad / Docking Station */}
-                    <div className="absolute bottom-12 z-0 w-96 h-12">
-                        {/* Platform Base */}
-                        <div className="w-full h-full bg-slate-900 border-t border-cyan-500/30 rounded-[100%] blur-sm shadow-[0_-10px_30px_rgba(6,182,212,0.1)] scale-x-150" />
-                        {/* Mechanical Arms (Abstract) */}
-                        <div className="absolute -left-10 bottom-2 w-20 h-4 bg-slate-800 rotate-12 rounded-full" />
-                        <div className="absolute -right-10 bottom-2 w-20 h-4 bg-slate-800 -rotate-12 rounded-full" />
+                    {/* Launchpad / Docking Station - Pushed to Bottom */}
+                    <div className="absolute bottom-[-40px] z-0 w-[500px] h-32 flex justify-center perspective-1000">
+                        {/* Main Platform Ring */}
+                        <div className="relative w-80 h-20">
+                             <div className="absolute inset-0 bg-slate-900 border-2 border-cyan-900/50 rounded-[100%] shadow-[0_0_50px_rgba(6,182,212,0.1)] overflow-hidden">
+                                  {/* Grid on Platform */}
+                                  <div className="absolute inset-0 bg-[linear-gradient(rgba(6,182,212,0.1)_1px,transparent_1px),linear-gradient(90deg,rgba(6,182,212,0.1)_1px,transparent_1px)] bg-[size:20px_20px]" />
+                             </div>
+                             {/* Inner Ring */}
+                             <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-48 h-12 bg-slate-950 border border-cyan-500/30 rounded-[100%] shadow-[inset_0_0_20px_rgba(6,182,212,0.2)]" />
+                        </div>
+                        
+                        {/* Mist/Steam on the ground */}
+                        <div className="absolute bottom-10 w-full h-20 bg-gradient-to-t from-cyan-900/20 to-transparent blur-xl" />
                     </div>
 
                     {/* Overlapping Text */}
@@ -185,7 +212,7 @@ export const Hero: React.FC = () => {
                         initial={{ opacity: 0, y: 20 }}
                         animate={{ opacity: 1, y: 0 }}
                         transition={{ delay: 0.5 }}
-                        className="relative z-30 -mt-16 text-7xl font-black text-transparent bg-clip-text bg-gradient-to-b from-white via-cyan-100 to-transparent tracking-tighter drop-shadow-xl"
+                        className="relative z-30 bottom-16 text-6xl md:text-8xl font-black text-transparent bg-clip-text bg-gradient-to-b from-white via-cyan-100 to-transparent tracking-tighter drop-shadow-[0_10px_10px_rgba(0,0,0,0.5)]"
                     >
                         ממריאים...
                     </motion.h2>
@@ -222,6 +249,9 @@ export const Hero: React.FC = () => {
             0% { opacity: 0; transform: scale(0.5); }
             50% { opacity: 0.8; transform: scale(1.2); }
             100% { opacity: 0; transform: scale(0.5); }
+        }
+        .perspective-1000 {
+            perspective: 1000px;
         }
       `}</style>
     </div>
