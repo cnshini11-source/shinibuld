@@ -1,13 +1,15 @@
-import React, { useState } from 'react';
+import React, { useState, Suspense, lazy } from 'react';
 import { Rocket, Github, Instagram, Facebook } from 'lucide-react';
-import { LegalModal } from './LegalModal';
+
+// Lazy load the modal so it's only fetched when needed
+const LegalModal = lazy(() => import('./LegalModal').then(module => ({ default: module.LegalModal })));
 
 export const Footer: React.FC = () => {
   const [modalType, setModalType] = useState<'privacy' | 'terms' | null>(null);
 
   return (
     <>
-      <footer className="bg-slate-950 border-t border-white/5 py-12 relative z-10">
+      <footer className="bg-slate-950 border-t border-white/5 py-12 relative z-10 content-visibility-auto">
         <div className="max-w-7xl mx-auto px-6">
           <div className="flex flex-col md:flex-row justify-between items-center mb-8">
             {/* Logo Section */}
@@ -21,9 +23,9 @@ export const Footer: React.FC = () => {
             
             {/* Social Icons */}
             <div className="flex gap-6">
-              <a href="#" className="text-slate-400 hover:text-cyan-400 hover:scale-110 transition-all duration-300"><Instagram size={20} /></a>
-              <a href="#" className="text-slate-400 hover:text-blue-500 hover:scale-110 transition-all duration-300"><Facebook size={20} /></a>
-              <a href="#" className="text-slate-400 hover:text-white hover:scale-110 transition-all duration-300"><Github size={20} /></a>
+              <a href="#" className="text-slate-400 hover:text-cyan-400 hover:scale-110 transition-all duration-300" aria-label="Instagram"><Instagram size={20} /></a>
+              <a href="#" className="text-slate-400 hover:text-blue-500 hover:scale-110 transition-all duration-300" aria-label="Facebook"><Facebook size={20} /></a>
+              <a href="#" className="text-slate-400 hover:text-white hover:scale-110 transition-all duration-300" aria-label="Github"><Github size={20} /></a>
             </div>
           </div>
           
@@ -37,11 +39,13 @@ export const Footer: React.FC = () => {
         </div>
       </footer>
 
-      <LegalModal 
-        isOpen={!!modalType} 
-        type={modalType} 
-        onClose={() => setModalType(null)} 
-      />
+      <Suspense fallback={null}>
+          <LegalModal 
+            isOpen={!!modalType} 
+            type={modalType} 
+            onClose={() => setModalType(null)} 
+          />
+      </Suspense>
     </>
   );
 };

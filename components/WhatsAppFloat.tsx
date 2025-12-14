@@ -6,6 +6,7 @@ export const WhatsAppFloat: React.FC = () => {
 
   useEffect(() => {
     const toggleVisibility = () => {
+      // Use requestAnimationFrame for smoother performance during scroll
       if (window.scrollY > 300) {
         setIsVisible(true);
       } else {
@@ -13,7 +14,8 @@ export const WhatsAppFloat: React.FC = () => {
       }
     };
 
-    window.addEventListener('scroll', toggleVisibility);
+    // Passive listener improves scroll performance
+    window.addEventListener('scroll', toggleVisibility, { passive: true });
     return () => window.removeEventListener('scroll', toggleVisibility);
   }, []);
 
@@ -25,7 +27,7 @@ export const WhatsAppFloat: React.FC = () => {
           animate={{ opacity: 1, scale: 1, y: 0 }}
           exit={{ opacity: 0, scale: 0.5, y: 20 }}
           transition={{ type: "spring", stiffness: 260, damping: 20 }}
-          className="fixed bottom-6 right-6 z-[90]"
+          className="fixed bottom-6 right-6 z-[90] will-change-transform"
         >
           <a
             href="https://wa.me/972538227778"

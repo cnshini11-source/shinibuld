@@ -1,44 +1,50 @@
 import React, { Suspense, lazy } from 'react';
+
+// --- Critical Components (Eager Load) ---
+// These are visible immediately above the fold or affect global layout significantly.
 import { Header } from './components/Header';
-import { Hero } from './components/Hero'; // Critical: Keep Hero eager loaded
-import { AccessibilityMenu } from './components/AccessibilityMenu';
+import { Hero } from './components/Hero'; 
 import { ScrollProgress } from './components/ScrollProgress';
 import { MouseSpotlight } from './components/MouseSpotlight';
 import { WhatsAppFloat } from './components/WhatsAppFloat';
 
-// Lazy Load Below-the-fold components
-// We use a helper to handle named exports with React.lazy
-const lazyLoad = (importFunc: any, componentName: string) => {
-  return lazy(() => importFunc.then((module: any) => ({ default: module[componentName] })));
+// --- Helper for Named Exports Lazy Loading ---
+const lazyLoad = (importFunc: Promise<any>, componentName: string) => {
+  return lazy(() => importFunc.then((module) => ({ default: module[componentName] })));
 };
 
+// --- Lazy Loaded Components (Below the Fold / Non-Critical) ---
+// Loading these later improves LCP (Largest Contentful Paint) and TBT (Total Blocking Time).
 const TechSection = lazyLoad(import('./components/TechSection'), 'TechSection');
 const WhyChooseMe = lazyLoad(import('./components/WhyChooseMe'), 'WhyChooseMe');
 const PortfolioCarousel = lazyLoad(import('./components/PortfolioCarousel'), 'PortfolioCarousel');
 const ProcessSection = lazyLoad(import('./components/ProcessSection'), 'ProcessSection');
 const Pricing = lazyLoad(import('./components/Pricing'), 'Pricing');
 const Footer = lazyLoad(import('./components/Footer'), 'Footer');
+const AccessibilityMenu = lazyLoad(import('./components/AccessibilityMenu'), 'AccessibilityMenu');
 
-// A lightweight fallback component to prevent layout shifts (CLS) during lazy loading
+// --- Loading Fallback ---
+// Lightweight placeholder to prevent CLS (Cumulative Layout Shift)
 const SectionLoader = () => (
-  <div className="w-full h-[500px] flex items-center justify-center bg-[#010206]">
-    <div className="w-1 h-20 bg-gradient-to-b from-cyan-500/20 to-transparent rounded-full animate-pulse" />
+  <div className="w-full h-[300px] flex items-center justify-center bg-[#010206] opacity-50">
+    <div className="w-px h-10 bg-gradient-to-b from-transparent via-cyan-500/50 to-transparent" />
   </div>
 );
 
 function App() {
   return (
     <div className="bg-[#010206] min-h-screen text-white selection:bg-cyan-500/30 overflow-hidden">
+      {/* Global Interactive Elements */}
       <MouseSpotlight />
-      <Header />
       <ScrollProgress />
-      <WhatsAppFloat />
+      <Header />
       
+      {/* Main Content Area */}
       <main>
-        {/* Hero is critical for LCP, so it's rendered immediately */}
+        {/* Hero: Critical Render Path */}
         <Hero />
         
-        {/* All subsequent sections are lazy loaded */}
+        {/* Lazy Loaded Sections */}
         <Suspense fallback={<SectionLoader />}>
             <div className="lazy-section">
                 <TechSection />
@@ -70,11 +76,16 @@ function App() {
         </Suspense>
       </main>
       
+      {/* Footer & Overlays */}
       <Suspense fallback={<div className="h-20 bg-slate-950" />}>
          <Footer />
       </Suspense>
       
-      <AccessibilityMenu />
+      <WhatsAppFloat />
+      
+      <Suspense fallback={null}>
+         <AccessibilityMenu />
+      </Suspense>
     </div>
   );
 }
