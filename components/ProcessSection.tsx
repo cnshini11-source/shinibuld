@@ -5,9 +5,9 @@ import { Search, PenTool, Database, Rocket, MessageSquare, BarChart, Smartphone,
 export const ProcessSection: React.FC = () => {
   return (
     <section id="process" className="py-24 bg-slate-950 relative overflow-hidden">
-      {/* Background Elements */}
-      <div className="absolute top-0 right-0 w-[500px] h-[500px] bg-blue-900/10 rounded-full blur-[100px] pointer-events-none" />
-      <div className="absolute bottom-0 left-0 w-[500px] h-[500px] bg-purple-900/10 rounded-full blur-[100px] pointer-events-none" />
+      {/* Background Elements - Optimized */}
+      <div className="absolute top-0 right-0 w-[500px] h-[500px] bg-blue-900/10 rounded-full blur-[100px] pointer-events-none transform-gpu will-change-transform" />
+      <div className="absolute bottom-0 left-0 w-[500px] h-[500px] bg-purple-900/10 rounded-full blur-[100px] pointer-events-none transform-gpu will-change-transform" />
       
       <div className="max-w-7xl mx-auto px-6 relative z-10">
         
@@ -39,7 +39,7 @@ export const ProcessSection: React.FC = () => {
                 whileInView={{ opacity: 1, x: 0 }}
                 viewport={{ once: true }}
              >
-                <div className="relative w-full max-w-sm aspect-square bg-slate-900/50 backdrop-blur-xl border border-white/10 rounded-3xl p-6 flex flex-col justify-center gap-4 group hover:border-blue-500/30 transition-all duration-500">
+                <div className="relative w-full max-w-sm aspect-square bg-slate-900/50 backdrop-blur-xl border border-white/10 rounded-3xl p-6 flex flex-col justify-center gap-4 group hover:border-blue-500/30 transition-all duration-500 transform-gpu">
                     <div className="absolute inset-0 bg-blue-500/5 rounded-3xl opacity-0 group-hover:opacity-100 transition-opacity" />
                     
                     {/* Floating Icons Grid */}
@@ -135,7 +135,7 @@ export const ProcessSection: React.FC = () => {
                 whileInView={{ opacity: 1, x: 0 }}
                 viewport={{ once: true }}
              >
-                <div className="relative w-full max-w-sm aspect-square bg-slate-900/50 backdrop-blur-xl border border-white/10 rounded-3xl p-6 flex items-center justify-center group hover:border-purple-500/30 transition-all duration-500">
+                <div className="relative w-full max-w-sm aspect-square bg-slate-900/50 backdrop-blur-xl border border-white/10 rounded-3xl p-6 flex items-center justify-center group hover:border-purple-500/30 transition-all duration-500 transform-gpu">
                     <div className="absolute inset-0 bg-purple-500/5 rounded-3xl opacity-0 group-hover:opacity-100 transition-opacity" />
                     
                     {/* Design Abstract Visual */}
@@ -171,7 +171,7 @@ export const ProcessSection: React.FC = () => {
                 whileInView={{ opacity: 1, x: 0 }}
                 viewport={{ once: true }}
              >
-                <div className="relative w-full max-w-sm bg-slate-900/50 backdrop-blur-xl border border-white/10 rounded-3xl p-6 flex flex-col justify-center gap-4 group hover:border-cyan-500/30 transition-all duration-500">
+                <div className="relative w-full max-w-sm bg-slate-900/50 backdrop-blur-xl border border-white/10 rounded-3xl p-6 flex flex-col justify-center gap-4 group hover:border-cyan-500/30 transition-all duration-500 transform-gpu">
                     <div className="absolute inset-0 bg-cyan-500/5 rounded-3xl opacity-0 group-hover:opacity-100 transition-opacity" />
                     
                     <div className="space-y-3">
@@ -245,8 +245,8 @@ export const ProcessSection: React.FC = () => {
             viewport={{ once: true }}
             className="relative mt-16"
           >
-              <div className="absolute inset-0 bg-gradient-to-r from-cyan-500 via-blue-500 to-purple-500 rounded-[2rem] blur opacity-20" />
-              <div className="relative bg-slate-900 border border-white/10 rounded-[2rem] p-8 md:p-12 overflow-hidden text-center">
+              <div className="absolute inset-0 bg-gradient-to-r from-cyan-500 via-blue-500 to-purple-500 rounded-[2rem] blur opacity-20 transform-gpu" />
+              <div className="relative bg-slate-900 border border-white/10 rounded-[2rem] p-8 md:p-12 overflow-hidden text-center transform-gpu">
                   
                   {/* Grid Background inside card */}
                   <div className="absolute inset-0 bg-[linear-gradient(rgba(255,255,255,0.02)_1px,transparent_1px),linear-gradient(90deg,rgba(255,255,255,0.02)_1px,transparent_1px)] bg-[size:40px_40px]" />

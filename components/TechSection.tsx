@@ -29,10 +29,10 @@ export const TechSection: React.FC = () => {
                    
                    <div className="space-y-4">
                        <p className="text-lg text-slate-400 leading-relaxed font-light">
-                           זו התחושה הכי מתסכלת שיש לבעל עסק: השקעת בקמפיין, המודעה הייתה מושלמת, הגולש הקליק – ואז... דממה. הוא יצא בלי להשאיר עקבות. הכסף שלך נשרף על "תיירים" באתר במקום על לקוחות משלמים.
+                           זו התחושה הכי מתסכלת שיש לבעל עסק: השקעת בקמפיין, המודעה הייתה מושלמת, הגולש הקליק – ואז... נעלם. הוא יצא בלי להשאיר עקבות. הכסף שלך נשרף על "תיירים" באתר במקום על לקוחות משלמים.
                            <br className="hidden md:block" /><br className="hidden md:block" />
                            <strong className="text-white font-medium">אני משנה את החוקים.</strong><br/>
-                           במקום עוד כרטיס ביקור דיגיטלי פסיבי, אני בונה לך סוכן מכירות דיגיטלי שעובד בשבילך 24/7. המערכת שאני מטמיע מזהה היסוס בזמן אמת ומגישה לגולש את הטריגר הפסיכולוגי המדויק שיגרום לו לעצור, לקרוא – ולהשאיר פרטים <strong className="text-cyan-400">כאן ועכשיו</strong>.
+                           במקום עוד דף שנראה טוב אני בונה לך סוכן מכירות דיגיטלי שעובד בשבילך 24/7. המערכת שאני מטמיע מזהה היסוס בזמן אמת ומגישה לגולש את הטריגר הפסיכולוגי המדויק שיגרום לו לעצור, לקרוא – ולהשאיר פרטים <strong className="text-cyan-400">כאן ועכשיו</strong>.
                        </p>
                    </div>
                 </motion.div>
@@ -45,9 +45,9 @@ export const TechSection: React.FC = () => {
                    transition={{ duration: 0.6 }}
                 >
                     {/* Static Glow */}
-                    <div className="absolute -inset-0.5 bg-gradient-to-r from-cyan-500/20 to-blue-600/20 rounded-2xl blur-sm opacity-50 will-change-transform" />
+                    <div className="absolute -inset-0.5 bg-gradient-to-r from-cyan-500/20 to-blue-600/20 rounded-2xl blur-sm opacity-50 will-change-transform transform-gpu" />
                     
-                    <div className="relative h-full bg-slate-900/80 backdrop-blur-sm border border-white/5 rounded-2xl p-6 md:p-8 flex flex-col justify-between overflow-hidden">
+                    <div className="relative h-full bg-slate-900/80 backdrop-blur-sm border border-white/5 rounded-2xl p-6 md:p-8 flex flex-col justify-between overflow-hidden transform-gpu">
                         
                         {/* Static Grid */}
                         <div className="absolute inset-0 bg-[linear-gradient(rgba(255,255,255,0.02)_1px,transparent_1px),linear-gradient(90deg,rgba(255,255,255,0.02)_1px,transparent_1px)] bg-[size:20px_20px] opacity-50" />

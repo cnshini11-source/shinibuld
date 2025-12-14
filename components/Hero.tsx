@@ -23,7 +23,7 @@ export const Hero: React.FC = () => {
     <div className="relative min-h-screen flex items-center justify-center overflow-hidden bg-[#010206] selection:bg-cyan-500/30">
       
       {/* --- BACKGROUND EFFECTS --- */}
-      <div className="absolute inset-0 z-0 pointer-events-none">
+      <div className="absolute inset-0 z-0 pointer-events-none transform-gpu">
         {/* Cyber Grid */}
         <div className="absolute inset-0 bg-[linear-gradient(to_right,#80808005_1px,transparent_1px),linear-gradient(to_bottom,#80808005_1px,transparent_1px)] bg-[size:24px_24px] [mask-image:radial-gradient(ellipse_80%_50%_at_50%_0%,#000_70%,transparent_100%)]" />
         
@@ -45,11 +45,11 @@ export const Hero: React.FC = () => {
         ))}
 
         {/* Ambient Glows */}
-        <div className="absolute top-[-10%] left-[-5%] w-[40vw] h-[40vw] bg-purple-900/10 rounded-full blur-[100px] mix-blend-screen animate-pulse duration-1000 transform-gpu" />
-        <div className="absolute bottom-[-10%] right-[-5%] w-[40vw] h-[40vw] bg-cyan-900/10 rounded-full blur-[100px] mix-blend-screen animate-pulse duration-[4s] transform-gpu" />
+        <div className="absolute top-[-10%] left-[-5%] w-[40vw] h-[40vw] bg-purple-900/10 rounded-full blur-[100px] mix-blend-screen animate-pulse duration-1000 transform-gpu will-change-transform" />
+        <div className="absolute bottom-[-10%] right-[-5%] w-[40vw] h-[40vw] bg-cyan-900/10 rounded-full blur-[100px] mix-blend-screen animate-pulse duration-[4s] transform-gpu will-change-transform" />
 
         {/* Scanner Line */}
-        <div className="absolute inset-x-0 top-0 h-px bg-gradient-to-r from-transparent via-cyan-500/30 to-transparent w-full animate-[scan_8s_ease-in-out_infinite] opacity-0 shadow-[0_0_15px_rgba(6,182,212,0.3)] will-change-transform" />
+        <div className="absolute inset-x-0 top-0 h-px bg-gradient-to-r from-transparent via-cyan-500/30 to-transparent w-full animate-[scan_8s_ease-in-out_infinite] opacity-0 shadow-[0_0_15px_rgba(6,182,212,0.3)] will-change-transform transform-gpu" />
       </div>
 
       <div className="relative z-10 max-w-7xl mx-auto px-6 w-full pt-20 lg:pt-0">
@@ -123,11 +123,11 @@ export const Hero: React.FC = () => {
             >
                 <div className="relative flex flex-col items-center justify-end h-full w-full">
                     
-                    {/* Rocket Wrapper - Floating High */}
+                    {/* Rocket Wrapper - Floating High - Optimized */}
                     <motion.div
                         animate={{ y: [-15, 15, -15] }}
                         transition={{ duration: 5, repeat: Infinity, ease: "easeInOut" }}
-                        className="relative z-20 w-48 mb-32" // Increased bottom margin for distance
+                        className="relative z-20 w-48 mb-32 will-change-transform transform-gpu" // Increased bottom margin for distance
                     >
                         {/* Custom Realistic Rocket SVG */}
                         <svg viewBox="0 0 200 400" className="w-full h-full drop-shadow-[0_0_30px_rgba(6,182,212,0.3)]">
