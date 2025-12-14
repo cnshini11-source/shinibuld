@@ -76,12 +76,12 @@ export const Hero: React.FC = () => {
                     initial={{ opacity: 0, scale: 0.95 }}
                     animate={{ opacity: 1, scale: 1 }}
                     transition={{ duration: 0.6, ease: "easeOut" }}
-                    className="relative z-10 text-5xl md:text-8xl font-black text-white mb-6 leading-tight tracking-tight"
+                    className="relative z-10 text-4xl md:text-7xl font-black text-white mb-6 leading-tight tracking-tight"
                     >
-                    אתרים ודפי נחיתה
+                    אנחנו לא בונים אתרים –
                     <br />
                     <span className="relative inline-block text-transparent bg-clip-text bg-gradient-to-r from-cyan-400 via-blue-500 to-purple-500 animate-[textShine_4s_linear_infinite] bg-[length:200%_auto]">
-                        שמייצרים תוצאות.
+                        אנחנו בונים מכונת לידים משומנת.
                     </span>
                     </motion.h1>
                 </div>
@@ -91,9 +91,9 @@ export const Hero: React.FC = () => {
                 initial={{ opacity: 0 }}
                 animate={{ opacity: 1 }}
                 transition={{ delay: 0.2, duration: 0.6 }}
-                className="text-xl md:text-2xl text-slate-400 max-w-2xl mb-12 leading-relaxed relative z-10 font-light"
+                className="text-lg md:text-xl text-slate-400 max-w-3xl mb-12 leading-relaxed relative z-10 font-light"
                 >
-                SHINI בונה מערכות חכמות עם חוויית משתמש מבוססת <span className="font-bold text-white">AI</span> ומשפך שיווקי שעובד 24/7.
+                דפי נחיתה ואתרי תדמית חכמים עם אנימציות מתקדמות, <span className="font-bold text-white">AI מובנה</span> ומשפך שיווקי מדויק שמייצר לידים ולקוחות באופן אוטומטי – 24/7.
                 </motion.p>
 
                 {/* CTAs */}
@@ -146,6 +146,22 @@ export const Hero: React.FC = () => {
                                     <stop offset="0%" stopColor="#06b6d4" />
                                     <stop offset="100%" stopColor="#0891b2" />
                                 </linearGradient>
+                                {/* New Chrome/Shiny Gradient for Text */}
+                                <linearGradient id="textChrome" x1="0" y1="0" x2="0" y2="1">
+                                    <stop offset="0%" stopColor="#ffffff" />
+                                    <stop offset="45%" stopColor="#a5f3fc" />
+                                    <stop offset="50%" stopColor="#22d3ee" />
+                                    <stop offset="55%" stopColor="#a5f3fc" />
+                                    <stop offset="100%" stopColor="#ffffff" />
+                                </linearGradient>
+                                {/* Glow Filter for Text */}
+                                <filter id="textGlow" x="-50%" y="-50%" width="200%" height="200%">
+                                    <feGaussianBlur stdDeviation="1.5" result="coloredBlur"/>
+                                    <feMerge>
+                                        <feMergeNode in="coloredBlur"/>
+                                        <feMergeNode in="SourceGraphic"/>
+                                    </feMerge>
+                                </filter>
                             </defs>
                             
                             {/* Left Fin */}
@@ -156,13 +172,35 @@ export const Hero: React.FC = () => {
                             {/* Main Body */}
                             <path d="M100 0 Q160 80 160 250 L160 350 L40 350 L40 250 Q40 80 100 0 Z" fill="url(#bodyMetal)" />
                             
-                            {/* Vertical Stripe/Detail */}
-                            <path d="M100 0 L100 350" stroke="rgba(0,0,0,0.1)" strokeWidth="1" />
+                            {/* Vertical Stripe/Detail - Adjusted to break for text */}
+                            <path d="M100 0 L100 130 M100 230 L100 350" stroke="rgba(0,0,0,0.2)" strokeWidth="1" />
                             
                             {/* Cockpit Window */}
                             <circle cx="100" cy="100" r="25" fill="#1e293b" stroke="#475569" strokeWidth="4" />
                             <circle cx="100" cy="100" r="20" fill="url(#windowGrad)" className="animate-pulse" />
                             <circle cx="108" cy="92" r="5" fill="white" opacity="0.6" />
+
+                            {/* LOGO TEXT ON ROCKET - Shiny & Visually Better */}
+                            <text 
+                                x="100" 
+                                y="190" 
+                                textAnchor="middle" 
+                                dominantBaseline="middle"
+                                fill="url(#textChrome)"
+                                stroke="rgba(255,255,255,0.4)"
+                                strokeWidth="0.5"
+                                fontSize="26" 
+                                fontWeight="900" 
+                                letterSpacing="0.15em"
+                                filter="url(#textGlow)"
+                                transform="rotate(-90 100 190)"
+                                style={{ 
+                                    textShadow: "0px 0px 10px rgba(6,182,212,0.8)",
+                                    fontFamily: "Arial, sans-serif" 
+                                }}
+                            >
+                                SHINI
+                            </text>
 
                             {/* Engine Nozzle */}
                             <path d="M70 350 L60 370 L140 370 L130 350 Z" fill="#1e293b" />
