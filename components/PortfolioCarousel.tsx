@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
-import { ExternalLink, ArrowUpRight, Zap, ChevronRight, ChevronLeft } from 'lucide-react';
+import { ExternalLink, ArrowUpRight, Zap } from 'lucide-react';
 
 const projects = [
   {
@@ -35,158 +35,121 @@ const projects = [
 
 export const PortfolioCarousel: React.FC = () => {
   const [currentIndex, setCurrentIndex] = useState(0);
-  const [isPaused, setIsPaused] = useState(false);
 
-  // Auto-rotation logic
+  // Auto-rotation logic - Faster (3500ms) for better flow
   useEffect(() => {
-    if (isPaused) return;
     const interval = setInterval(() => {
       setCurrentIndex((prev) => (prev + 1) % projects.length);
-    }, 5000);
+    }, 3500);
     return () => clearInterval(interval);
-  }, [isPaused]);
-
-  const handleNext = () => {
-    setCurrentIndex((prev) => (prev + 1) % projects.length);
-    setIsPaused(true);
-    // Restart auto-play after interaction (optional logic could go here, but simple pause is safer UX)
-    setTimeout(() => setIsPaused(false), 8000);
-  };
-
-  const handlePrev = () => {
-    setCurrentIndex((prev) => (prev - 1 + projects.length) % projects.length);
-    setIsPaused(true);
-    setTimeout(() => setIsPaused(false), 8000);
-  };
+  }, []);
 
   const handleCardClick = (index: number) => {
-    if (index === currentIndex) return;
     setCurrentIndex(index);
-    setIsPaused(true);
-    setTimeout(() => setIsPaused(false), 8000);
   };
 
-  // Calculate card properties based on position relative to active index
+  // 3D Cube Logic
   const getCardProps = (index: number) => {
     const total = projects.length;
-    // Calculate difference (0 = active, 1 = right, -1/2 = left)
-    let diff = (index - currentIndex + total) % total;
-    if (diff === 2) diff = -1; // Normalize for 3 items to be [-1, 0, 1]
+    // Calculate relative position based on a circular list of 3 items
+    // If current is 0: 0=Center, 1=Right, 2=Left
+    // If current is 1: 1=Center, 2=Right, 0=Left
+    // If current is 2: 2=Center, 0=Right, 1=Left
+    
+    let position = 'center';
+    if (index === currentIndex) position = 'center';
+    else if (index === (currentIndex + 1) % total) position = 'right';
+    else position = 'left';
 
-    const isActive = diff === 0;
-    const isRight = diff === 1;
-    const isLeft = diff === -1;
-
-    return {
-      zIndex: isActive ? 30 : 10,
-      x: isActive ? "0%" : isRight ? "60%" : "-60%",
-      scale: isActive ? 1 : 0.8,
-      opacity: isActive ? 1 : 0.4,
-      rotateY: isActive ? 0 : isRight ? -15 : 15,
-      filter: isActive ? "blur(0px)" : "blur(2px)",
-      pointerEvents: isActive ? "auto" : "none", // Prevent clicking links on side cards
+    const variants = {
+      center: {
+        zIndex: 30,
+        x: '0%',
+        scale: 1,
+        opacity: 1,
+        rotateY: 0,
+        filter: 'brightness(1.1)',
+      },
+      right: {
+        zIndex: 10,
+        x: '65%', // Visible on the right
+        scale: 0.85,
+        opacity: 0.5,
+        rotateY: -25, // Angled towards center
+        filter: 'brightness(0.6)',
+      },
+      left: {
+        zIndex: 10,
+        x: '-65%', // Visible on the left
+        scale: 0.85,
+        opacity: 0.5,
+        rotateY: 25, // Angled towards center
+        filter: 'brightness(0.6)',
+      }
     };
+
+    return variants[position as keyof typeof variants];
   };
 
   return (
-    <section className="py-24 bg-slate-950 relative overflow-hidden border-t border-white/5">
-      {/* Dynamic Background Glows */}
-      <div className="absolute top-0 left-1/4 w-96 h-96 bg-cyan-900/10 rounded-full blur-[120px] pointer-events-none" />
-      <div className="absolute bottom-0 right-1/4 w-96 h-96 bg-purple-900/10 rounded-full blur-[120px] pointer-events-none" />
+    <section className="py-20 bg-slate-950 relative overflow-hidden border-t border-white/5">
+      {/* Background Ambience */}
+      <div className="absolute inset-0 bg-[radial-gradient(circle_at_center,rgba(6,182,212,0.03),transparent_60%)] pointer-events-none" />
 
-      <div className="max-w-7xl mx-auto px-6 relative z-10 flex flex-col items-center">
+      <div className="w-full max-w-[1400px] mx-auto px-6 relative z-10 flex flex-col items-center">
         
-        {/* Header Section */}
-        <div className="text-center mb-16 max-w-2xl">
-            <div className="flex items-center justify-center gap-2 mb-3 text-cyan-400 font-bold tracking-widest text-sm uppercase">
-                <Zap size={16} />
+        {/* Compact Header */}
+        <div className="text-center mb-12 max-w-xl">
+            <div className="flex items-center justify-center gap-2 mb-2 text-cyan-400 font-bold tracking-widest text-xs uppercase">
+                <Zap size={14} />
                 <span>Selected Work</span>
             </div>
-            <h2 className="text-4xl md:text-5xl font-black text-white leading-tight mb-4">
-               הפרוייקטים ה<span className="text-transparent bg-clip-text bg-gradient-to-l from-cyan-400 to-blue-600">נבחרים שלי</span>
+            <h2 className="text-3xl md:text-4xl font-black text-white leading-tight">
+               האחרונים <span className="text-transparent bg-clip-text bg-gradient-to-l from-cyan-400 to-blue-600">שלי</span>
             </h2>
-            <p className="text-slate-400 text-lg leading-relaxed">
-                כל פרויקט הוא יצירת אמנות טכנולוגית. גללו וראו את העתיד.
-            </p>
         </div>
 
         {/* 3D Carousel Container */}
-        <div className="relative w-full max-w-[1000px] h-[400px] flex justify-center items-center perspective-[1000px]">
-            <AnimatePresence mode='popLayout'>
-                {projects.map((project, index) => {
-                    const props = getCardProps(index);
-                    const isActive = index === currentIndex;
+        <div className="relative w-full h-[340px] flex justify-center items-center perspective-[1000px] transform-gpu">
+            {/* We map directly without AnimatePresence to keep all 3 items in DOM for circular flow */}
+            {projects.map((project, index) => {
+                const props = getCardProps(index);
+                const isActive = index === currentIndex;
 
-                    return (
-                        <motion.div
-                            key={index}
-                            layout
-                            initial={false}
-                            animate={{
-                                x: props.x,
-                                scale: props.scale,
-                                opacity: props.opacity,
-                                rotateY: props.rotateY,
-                                zIndex: props.zIndex,
-                                filter: props.filter
-                            }}
-                            transition={{
-                                duration: 0.8,
-                                ease: [0.32, 0.72, 0, 1],
-                            }}
-                            className={`absolute w-[240px] md:w-[280px] h-[360px] rounded-3xl cursor-pointer ${isActive ? 'cursor-default' : 'cursor-pointer'}`}
-                            onClick={() => !isActive && handleCardClick(index)}
+                return (
+                    <motion.div
+                        key={index}
+                        initial={false}
+                        animate={props}
+                        transition={{
+                            duration: 0.7,
+                            ease: [0.25, 1, 0.5, 1], // Cubic bezier for "Cube" feel
+                        }}
+                        className="absolute w-[300px] md:w-[380px] h-[280px] md:h-[320px] rounded-2xl cursor-pointer will-change-transform"
+                        onClick={() => handleCardClick(index)}
+                        style={{ transformStyle: 'preserve-3d' }}
+                    >
+                        {/* Card Content Wrapper */}
+                        <div 
+                            className={`relative w-full h-full bg-slate-900 border border-white/10 rounded-2xl overflow-hidden shadow-2xl transition-all duration-300 ${project.border} ${isActive ? 'shadow-cyan-500/20 ring-1 ring-white/10' : ''}`}
                         >
-                            {/* Card Content Wrapper */}
-                            <div 
-                                className={`relative w-full h-full bg-slate-900 border border-white/10 rounded-3xl overflow-hidden shadow-2xl transition-all duration-300 ${project.border} ${isActive ? 'shadow-cyan-500/10' : ''}`}
-                            >
-                                {/* Active Link Wrapper */}
-                                {isActive ? (
-                                    <a 
-                                        href={project.link !== "#" ? project.link : undefined}
-                                        target="_blank"
-                                        rel="noopener noreferrer"
-                                        className="block w-full h-full group"
-                                    >
-                                        <CardContent project={project} isActive={isActive} />
-                                    </a>
-                                ) : (
+                            {/* Active Link Wrapper */}
+                            {isActive ? (
+                                <a 
+                                    href={project.link !== "#" ? project.link : undefined}
+                                    target="_blank"
+                                    rel="noopener noreferrer"
+                                    className="block w-full h-full group"
+                                >
                                     <CardContent project={project} isActive={isActive} />
-                                )}
-                            </div>
-                        </motion.div>
-                    );
-                })}
-            </AnimatePresence>
-
-            {/* Navigation Buttons (Desktop) */}
-            <button 
-                onClick={handlePrev}
-                className="hidden md:flex absolute left-4 lg:-left-12 top-1/2 -translate-y-1/2 w-12 h-12 rounded-full bg-white/5 border border-white/10 items-center justify-center hover:bg-white/10 hover:scale-110 hover:border-cyan-500/30 transition-all z-40 text-white"
-            >
-                <ChevronLeft size={24} />
-            </button>
-            <button 
-                onClick={handleNext}
-                className="hidden md:flex absolute right-4 lg:-right-12 top-1/2 -translate-y-1/2 w-12 h-12 rounded-full bg-white/5 border border-white/10 items-center justify-center hover:bg-white/10 hover:scale-110 hover:border-cyan-500/30 transition-all z-40 text-white"
-            >
-                <ChevronRight size={24} />
-            </button>
-        </div>
-        
-        {/* Mobile Navigation Indicators */}
-        <div className="flex md:hidden gap-2 mt-8">
-            {projects.map((_, idx) => (
-                <button
-                    key={idx}
-                    onClick={() => {
-                        setCurrentIndex(idx);
-                        setIsPaused(true);
-                    }}
-                    className={`w-2 h-2 rounded-full transition-all duration-300 ${idx === currentIndex ? 'bg-cyan-400 w-6' : 'bg-slate-600'}`}
-                />
-            ))}
+                                </a>
+                            ) : (
+                                <CardContent project={project} isActive={isActive} />
+                            )}
+                        </div>
+                    </motion.div>
+                );
+            })}
         </div>
 
       </div>
@@ -199,57 +162,47 @@ const CardContent = ({ project, isActive }: { project: typeof projects[0], isAct
         {/* Background Gradient */}
         <div className={`absolute inset-0 bg-gradient-to-br ${project.gradient} opacity-0 group-hover:opacity-100 transition-opacity duration-700`} />
 
-        {/* Project Preview */}
-        <div className="absolute inset-x-4 top-4 bottom-28 bg-slate-950/50 rounded-2xl border border-white/5 overflow-hidden backdrop-blur-sm group-hover:scale-[1.02] transition-transform duration-500 origin-bottom">
+        {/* Project Image Area */}
+        <div className="absolute inset-0 bg-slate-950/50">
             {project.image ? (
                 <div className="relative w-full h-full">
                     <img 
                         src={project.image} 
                         alt={project.title} 
-                        className="w-full h-full object-cover object-top opacity-90 group-hover:opacity-100 transition-opacity duration-500"
+                        className="w-full h-full object-cover transition-transform duration-700 group-hover:scale-105"
                     />
-                    <div className="absolute inset-0 shadow-[inset_0_0_40px_rgba(0,0,0,0.5)]" />
+                    <div className="absolute inset-0 bg-gradient-to-t from-slate-950 via-slate-950/20 to-transparent opacity-80" />
                 </div>
             ) : (
-                <div className="relative w-full h-full flex flex-col opacity-60">
-                    <div className="h-8 bg-white/5 border-b border-white/5 flex items-center px-3 gap-1.5">
-                        <div className="w-2 h-2 rounded-full bg-red-500/50" />
-                        <div className="w-2 h-2 rounded-full bg-yellow-500/50" />
-                        <div className="w-2 h-2 rounded-full bg-green-500/50" />
-                    </div>
-                    <div className="p-4 space-y-3 flex-1 bg-gradient-to-b from-transparent to-black/20">
-                        <div className="w-1/3 h-2 bg-white/20 rounded-full" />
-                        <div className="w-2/3 h-2 bg-white/10 rounded-full" />
-                    </div>
+                <div className="relative w-full h-full flex flex-col opacity-50">
+                     <div className="absolute inset-0 bg-[radial-gradient(circle_at_50%_0%,rgba(255,255,255,0.1),transparent_50%)]" />
+                     <div className="mt-auto p-4 space-y-2">
+                        <div className="w-1/2 h-2 bg-white/20 rounded-full" />
+                        <div className="w-3/4 h-2 bg-white/10 rounded-full" />
+                     </div>
                 </div>
             )}
             
-            {/* Overlay Icon (Only active) */}
+            {/* Overlay Icon */}
             {isActive && (
-                <div className="absolute inset-0 flex items-center justify-center opacity-0 group-hover:opacity-100 transition-opacity duration-300 bg-black/20 backdrop-blur-[2px]">
-                    <div className="w-10 h-10 bg-white text-black rounded-full flex items-center justify-center shadow-lg transform scale-50 group-hover:scale-100 transition-transform duration-300">
-                        <ArrowUpRight size={20} strokeWidth={2.5} />
+                <div className="absolute top-4 left-4 flex items-center justify-center opacity-0 group-hover:opacity-100 transition-all duration-300 translate-y-2 group-hover:translate-y-0 z-20">
+                    <div className="w-8 h-8 bg-white/10 backdrop-blur-md border border-white/20 text-white rounded-full flex items-center justify-center">
+                        <ArrowUpRight size={16} strokeWidth={2.5} />
                     </div>
                 </div>
             )}
         </div>
 
         {/* Text Content */}
-        <div className="absolute bottom-0 left-0 right-0 p-6 bg-gradient-to-t from-slate-950 via-slate-950/95 to-transparent h-32 flex flex-col justify-end">
-            <span className="text-[10px] font-bold tracking-widest uppercase text-slate-500 mb-1 block">{project.category}</span>
-            <h3 className={`text-xl font-black text-white transition-colors duration-300 ${isActive ? project.text_glow : ''}`}>
-                {project.title}
-            </h3>
-            <p className="text-slate-400 text-xs leading-relaxed line-clamp-2 mt-1 group-hover:text-slate-300 transition-colors">
-                {project.description}
-            </p>
-        </div>
-
-        {/* Corner Decoration */}
-        {isActive && project.link !== "#" && (
-            <div className="absolute top-3 left-3 p-1.5 bg-white/10 rounded-full backdrop-blur-md opacity-0 group-hover:opacity-100 transition-opacity duration-500 delay-100 z-10 border border-white/10">
-                <ExternalLink size={14} className="text-white" />
+        <div className="absolute bottom-0 left-0 right-0 p-6 z-10">
+            <div className="flex justify-between items-end">
+                <div>
+                    <span className="text-[10px] font-bold tracking-widest uppercase text-cyan-400 mb-1.5 block">{project.category}</span>
+                    <h3 className={`text-xl md:text-2xl font-bold text-white leading-tight ${isActive ? project.text_glow : ''}`}>
+                        {project.title}
+                    </h3>
+                </div>
             </div>
-        )}
+        </div>
     </>
 );

@@ -105,9 +105,8 @@ export const Hero: React.FC = () => {
                         <span className="flex items-center gap-4 relative z-10">
                             בוא נדבר
                             <span className="relative w-8 h-8 flex items-center justify-center">
-                                {/* The Rocket that launches */}
-                                <Rocket className="w-8 h-8 absolute inset-0 transform -rotate-45 group-hover:-translate-x-48 group-hover:-translate-y-48 transition-transform duration-700 ease-in-out text-white fill-white/20" />
-                                {/* The Fire/Trail left behind (optional, implied by speed) */}
+                                {/* The Rocket stays inside but wiggles/rotates on hover */}
+                                <Rocket className="w-8 h-8 absolute inset-0 transform -rotate-45 group-hover:rotate-0 group-hover:scale-110 transition-transform duration-500 ease-in-out text-white fill-white/20" />
                             </span>
                         </span>
                     </Button>
