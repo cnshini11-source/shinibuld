@@ -4,7 +4,7 @@ import { Search, PenTool, Database, Rocket, MessageSquare, BarChart, Smartphone,
 
 export const ProcessSection: React.FC = () => {
   return (
-    <section id="process" className="py-24 bg-slate-950 relative overflow-hidden">
+    <section className="py-24 bg-slate-950 relative overflow-hidden">
       {/* Background Elements - Optimized */}
       <div className="absolute top-0 right-0 w-[500px] h-[500px] bg-blue-900/10 rounded-full blur-[100px] pointer-events-none transform-gpu will-change-transform" />
       <div className="absolute bottom-0 left-0 w-[500px] h-[500px] bg-purple-900/10 rounded-full blur-[100px] pointer-events-none transform-gpu will-change-transform" />
@@ -39,7 +39,8 @@ export const ProcessSection: React.FC = () => {
                 whileInView={{ opacity: 1, x: 0 }}
                 viewport={{ once: true }}
              >
-                <div className="relative w-full max-w-sm aspect-square bg-slate-900/50 backdrop-blur-xl border border-white/10 rounded-3xl p-6 flex flex-col justify-center gap-4 group hover:border-blue-500/30 transition-all duration-500 transform-gpu">
+                {/* Changed backdrop-blur-xl to backdrop-blur-md for better performance */}
+                <div className="relative w-full max-w-sm aspect-square bg-slate-900/50 backdrop-blur-md border border-white/10 rounded-3xl p-6 flex flex-col justify-center gap-4 group hover:border-blue-500/30 transition-all duration-500 transform-gpu">
                     <div className="absolute inset-0 bg-blue-500/5 rounded-3xl opacity-0 group-hover:opacity-100 transition-opacity" />
                     
                     {/* Floating Icons Grid */}
@@ -92,6 +93,10 @@ export const ProcessSection: React.FC = () => {
                         <div className="w-1.5 h-1.5 bg-blue-500 rounded-full" />
                         בניית משפך שיווקי מותאם אישית למטרות שלך.
                     </li>
+                    <li className="flex items-center gap-2 text-slate-300 text-sm">
+                        <div className="w-1.5 h-1.5 bg-blue-500 rounded-full" />
+                        כתיבת תוכן שיווקי מדויק שמבליט את האתר שלך.
+                    </li>
                 </ul>
              </motion.div>
           </div>
@@ -135,7 +140,8 @@ export const ProcessSection: React.FC = () => {
                 whileInView={{ opacity: 1, x: 0 }}
                 viewport={{ once: true }}
              >
-                <div className="relative w-full max-w-sm aspect-square bg-slate-900/50 backdrop-blur-xl border border-white/10 rounded-3xl p-6 flex items-center justify-center group hover:border-purple-500/30 transition-all duration-500 transform-gpu">
+                {/* Changed backdrop-blur-xl to backdrop-blur-md for better performance */}
+                <div className="relative w-full max-w-sm aspect-square bg-slate-900/50 backdrop-blur-md border border-white/10 rounded-3xl p-6 flex items-center justify-center group hover:border-purple-500/30 transition-all duration-500 transform-gpu">
                     <div className="absolute inset-0 bg-purple-500/5 rounded-3xl opacity-0 group-hover:opacity-100 transition-opacity" />
                     
                     {/* Design Abstract Visual */}
@@ -171,7 +177,8 @@ export const ProcessSection: React.FC = () => {
                 whileInView={{ opacity: 1, x: 0 }}
                 viewport={{ once: true }}
              >
-                <div className="relative w-full max-w-sm bg-slate-900/50 backdrop-blur-xl border border-white/10 rounded-3xl p-6 flex flex-col justify-center gap-4 group hover:border-cyan-500/30 transition-all duration-500 transform-gpu">
+                {/* Changed backdrop-blur-xl to backdrop-blur-md for better performance */}
+                <div className="relative w-full max-w-sm bg-slate-900/50 backdrop-blur-md border border-white/10 rounded-3xl p-6 flex flex-col justify-center gap-4 group hover:border-cyan-500/30 transition-all duration-500 transform-gpu">
                     <div className="absolute inset-0 bg-cyan-500/5 rounded-3xl opacity-0 group-hover:opacity-100 transition-opacity" />
                     
                     <div className="space-y-3">

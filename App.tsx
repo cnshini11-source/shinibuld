@@ -5,7 +5,6 @@ import React, { Suspense, lazy } from 'react';
 import { Header } from './components/Header';
 import { Hero } from './components/Hero'; 
 import { ScrollProgress } from './components/ScrollProgress';
-import { MouseSpotlight } from './components/MouseSpotlight';
 import { WhatsAppFloat } from './components/WhatsAppFloat';
 
 // --- Helper for Named Exports Lazy Loading ---
@@ -35,7 +34,6 @@ function App() {
   return (
     <div className="bg-[#010206] min-h-screen text-white selection:bg-cyan-500/30 overflow-hidden">
       {/* Global Interactive Elements */}
-      <MouseSpotlight />
       <ScrollProgress />
       <Header />
       
@@ -64,7 +62,7 @@ function App() {
         </Suspense>
 
         <Suspense fallback={<SectionLoader />}>
-             <div className="lazy-section">
+             <div id="process" className="lazy-section">
                 <ProcessSection />
              </div>
         </Suspense>

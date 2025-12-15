@@ -7,9 +7,9 @@ export const Hero: React.FC = () => {
   const { scrollY } = useScroll();
   const opacity = useTransform(scrollY, [0, 300], [1, 0]);
   
-  // Generate stars with memoization
+  // Generate stars with memoization - Reduced count for performance
   const stars = useMemo(() => {
-    return Array.from({ length: 40 }).map((_, i) => ({
+    return Array.from({ length: 20 }).map((_, i) => ({
       id: i,
       top: `${Math.floor(Math.random() * 100)}%`,
       left: `${Math.floor(Math.random() * 100)}%`,
@@ -44,12 +44,11 @@ export const Hero: React.FC = () => {
             />
         ))}
 
-        {/* Ambient Glows - Optimized with will-change */}
-        <div className="absolute top-[-10%] left-[-5%] w-[40vw] h-[40vw] bg-purple-900/10 rounded-full blur-[100px] mix-blend-screen animate-pulse duration-1000 transform-gpu will-change-[opacity]" />
-        <div className="absolute bottom-[-10%] right-[-5%] w-[40vw] h-[40vw] bg-cyan-900/10 rounded-full blur-[100px] mix-blend-screen animate-pulse duration-[4s] transform-gpu will-change-[opacity]" />
-
-        {/* Scanner Line */}
-        <div className="absolute inset-x-0 top-0 h-px bg-gradient-to-r from-transparent via-cyan-500/30 to-transparent w-full animate-[scan_8s_ease-in-out_infinite] opacity-0 shadow-[0_0_15px_rgba(6,182,212,0.3)] will-change-transform transform-gpu" />
+        {/* Ambient Glows - Optimized */}
+        <div className="absolute top-[-10%] left-[-5%] w-[40vw] h-[40vw] bg-purple-900/10 rounded-full blur-[80px] mix-blend-screen transform-gpu" />
+        <div className="absolute bottom-[-10%] right-[-5%] w-[40vw] h-[40vw] bg-cyan-900/10 rounded-full blur-[80px] mix-blend-screen transform-gpu" />
+        
+        {/* Removed Scanner Line for Performance */}
       </div>
 
       <div className="relative z-10 max-w-7xl mx-auto px-6 w-full pt-20 lg:pt-0">
@@ -108,9 +107,11 @@ export const Hero: React.FC = () => {
                         בוא נדבר <ArrowLeft className="w-5 h-5 mr-2" />
                     </Button>
                 </a>
-                <Button variant="secondary">
-                    איך זה עובד?
-                </Button>
+                <a href="#process">
+                    <Button variant="secondary">
+                        איך זה עובד?
+                    </Button>
+                </a>
                 </motion.div>
             </div>
 
@@ -130,7 +131,7 @@ export const Hero: React.FC = () => {
                         className="relative z-20 w-48 mb-32 will-change-transform transform-gpu" // Increased bottom margin for distance
                     >
                         {/* Custom Realistic Rocket SVG */}
-                        <svg viewBox="0 0 200 400" className="w-full h-full drop-shadow-[0_0_30px_rgba(6,182,212,0.3)]">
+                        <svg viewBox="0 0 200 400" className="w-full h-full drop-shadow-[0_0_20px_rgba(6,182,212,0.2)]">
                             <defs>
                                 <linearGradient id="bodyMetal" x1="0" y1="0" x2="1" y2="0">
                                     <stop offset="0%" stopColor="#334155" />
@@ -154,14 +155,7 @@ export const Hero: React.FC = () => {
                                     <stop offset="55%" stopColor="#a5f3fc" />
                                     <stop offset="100%" stopColor="#ffffff" />
                                 </linearGradient>
-                                {/* Glow Filter for Text */}
-                                <filter id="textGlow" x="-50%" y="-50%" width="200%" height="200%">
-                                    <feGaussianBlur stdDeviation="1.5" result="coloredBlur"/>
-                                    <feMerge>
-                                        <feMergeNode in="coloredBlur"/>
-                                        <feMergeNode in="SourceGraphic"/>
-                                    </feMerge>
-                                </filter>
+                                {/* Optimized: Removed Filter to improve performance */}
                             </defs>
                             
                             {/* Left Fin */}
@@ -192,7 +186,6 @@ export const Hero: React.FC = () => {
                                 fontSize="26" 
                                 fontWeight="900" 
                                 letterSpacing="0.15em"
-                                filter="url(#textGlow)"
                                 transform="rotate(-90 100 190)"
                                 style={{ 
                                     textShadow: "0px 0px 10px rgba(6,182,212,0.8)",
@@ -273,12 +266,6 @@ export const Hero: React.FC = () => {
 
       {/* CSS Styles */}
       <style>{`
-        @keyframes scan {
-            0% { transform: translateY(0vh); opacity: 0; }
-            15% { opacity: 1; }
-            85% { opacity: 1; }
-            100% { transform: translateY(100vh); opacity: 0; }
-        }
         @keyframes textShine {
             0% { background-position: 0% 50%; }
             100% { background-position: 200% 50%; }

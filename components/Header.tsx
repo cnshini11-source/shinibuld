@@ -1,30 +1,31 @@
-import React from 'react';
-import { motion, useScroll, useTransform } from 'framer-motion';
+import React, { useState } from 'react';
+import { useScroll, useMotionValueEvent } from 'framer-motion';
 import { Rocket } from 'lucide-react';
 
 export const Header: React.FC = () => {
   const { scrollY } = useScroll();
-  
-  const headerBackground = useTransform(
-    scrollY,
-    [0, 50],
-    ["rgba(3, 7, 18, 0)", "rgba(3, 7, 18, 0.9)"]
-  );
+  const [isScrolled, setIsScrolled] = useState(false);
 
-  const backdropBlur = useTransform(
-    scrollY,
-    [0, 50],
-    ["blur(0px)", "blur(8px)"]
-  );
+  // Optimized: Only trigger update when crossing the threshold, not every pixel
+  useMotionValueEvent(scrollY, "change", (latest) => {
+    if (latest > 50 && !isScrolled) {
+        setIsScrolled(true);
+    } else if (latest <= 50 && isScrolled) {
+        setIsScrolled(false);
+    }
+  });
 
   const scrollToTop = () => {
     window.scrollTo({ top: 0, behavior: 'smooth' });
   };
 
   return (
-    <motion.header
-      style={{ backgroundColor: headerBackground, backdropFilter: backdropBlur }}
-      className={`fixed top-0 left-0 right-0 z-50 border-b border-white/5 transition-colors duration-300`}
+    <header
+      className={`fixed top-0 left-0 right-0 z-50 transition-all duration-300 ${
+        isScrolled 
+            ? "bg-slate-950/90 backdrop-blur-md border-b border-white/5 shadow-lg" 
+            : "bg-transparent border-transparent backdrop-blur-none"
+      }`}
     >
       <div className="max-w-7xl mx-auto px-6 h-24 flex items-center justify-center relative z-10">
         
@@ -50,6 +51,6 @@ export const Header: React.FC = () => {
         </div>
 
       </div>
-    </motion.header>
+    </header>
   );
 };
