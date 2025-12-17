@@ -227,7 +227,7 @@ export const ProcessSection: React.FC = () => {
                                 </div>
                             </div>
 
-                            {/* Personal WhatsApp Support Item - Refined & Shortened Text */}
+                            {/* Personal WhatsApp Support Item - Practical & Short Text */}
                             <div className="p-4 bg-white/5 rounded-xl border border-white/5 flex items-start gap-4 transition-all hover:bg-white/10 group/card">
                                 <div className="w-10 h-10 rounded-lg bg-[#25D366]/10 flex items-center justify-center shrink-0 border border-[#25D366]/20 group-hover/card:scale-110 transition-transform">
                                     <WhatsAppIcon className="text-[#25D366] w-6 h-6 drop-shadow-[0_0_8px_rgba(37,211,102,0.3)]" />
@@ -235,7 +235,7 @@ export const ProcessSection: React.FC = () => {
                                 <div>
                                     <span className="text-white font-black text-sm block mb-1">תמיכה וליווי אישי בווצאפ</span>
                                     <p className="text-slate-400 text-xs leading-relaxed">
-                                        מענה אישי וצמוד לכל שאלה, שינוי או ייעוץ טכני. קו ישיר לווצאפ שלי, ללא נציגים או בוטים – הליווי הצמוד שלך בדרך לצמיחה והצלחה דיגיטלית.
+                                        מענה ישיר לכל שאלה, שינוי או ייעוץ. בלי נציגים ובלי בוטים – אני כאן כדי לוודא שהאתר שלך תמיד בשיאו.
                                     </p>
                                 </div>
                             </div>
