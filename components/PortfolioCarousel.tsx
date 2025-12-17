@@ -1,3 +1,4 @@
+
 import React, { useState, useEffect, useCallback } from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
 import { ExternalLink, ArrowUpRight, Zap } from 'lucide-react';
@@ -65,9 +66,15 @@ export const PortfolioCarousel: React.FC = () => {
   };
 
   return (
-    <section className="py-12 bg-slate-950 relative overflow-hidden">
-      {/* Background Ambience */}
-      <div className="absolute inset-0 bg-[radial-gradient(ellipse_at_top,rgba(6,182,212,0.05),transparent_70%)] pointer-events-none" />
+    <section 
+      className="py-12 relative overflow-hidden" 
+      style={{ background: 'linear-gradient(to bottom, #05080D, #080E16)' }}
+    >
+      {/* Background Ambience - Updated to very subtle blue depth instead of turquoise */}
+      <div className="absolute inset-0 bg-[radial-gradient(ellipse_at_center,rgba(50,80,180,0.03),transparent_80%)] pointer-events-none" />
+      
+      {/* Localized Cyber Grid overlay for consistency */}
+      <div className="absolute inset-0 bg-[linear-gradient(to_right,#ffffff02_1px,transparent_1px),linear-gradient(to_bottom,#ffffff02_1px,transparent_1px)] bg-[size:30px_30px] opacity-20 pointer-events-none" />
 
       <div className="w-full max-w-6xl mx-auto px-6 relative z-10 flex flex-col items-center">
         
@@ -99,8 +106,8 @@ export const PortfolioCarousel: React.FC = () => {
             onMouseEnter={() => setIsAutoPlaying(false)}
             onMouseLeave={() => setIsAutoPlaying(true)}
         >
-            {/* Ambient Glow behind Active Card */}
-            <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[300px] h-[300px] bg-cyan-500/20 blur-[100px] rounded-full z-0" />
+            {/* Ambient Glow behind Active Card - Subtler and more neutral blue */}
+            <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[300px] h-[300px] bg-blue-500/5 blur-[100px] rounded-full z-0" />
 
             {projects.map((project, index) => {
                 const style = getCardStyle(index);
