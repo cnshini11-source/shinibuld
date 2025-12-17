@@ -20,12 +20,12 @@ const projects = [
     image: "https://i.imgur.com/ozMneOp.png"
   },
   {
-    title: "Quantum Fitness",
+    title: "IDAN FITNESS",
     category: "Health & Sport",
     description: "דף נחיתה הממיר בטירוף למותג כושר.",
     gradient: "from-emerald-600 to-teal-500",
     link: "#",
-    image: null
+    image: "https://i.imgur.com/eQ6sscB.png"
   }
 ];
 

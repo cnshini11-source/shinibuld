@@ -98,14 +98,15 @@ export const AccessibilityMenu: React.FC = () => {
   );
 
   return (
-    <div className="fixed bottom-6 left-6 z-[100] font-sans">
+    <div className="fixed bottom-6 left-6 z-[100] font-sans group">
       <AnimatePresence>
         {isOpen && (
           <motion.div
             initial={{ opacity: 0, y: 10, scale: 0.95, originY: 1, originX: 0 }}
             animate={{ opacity: 1, y: 0, scale: 1 }}
             exit={{ opacity: 0, y: 10, scale: 0.95 }}
-            className="mb-3 bg-slate-900/95 backdrop-blur-xl border border-white/10 rounded-xl shadow-2xl w-[280px] origin-bottom-left overflow-hidden"
+            // Absolute positioning ensures the button doesn't move when menu opens
+            className="absolute bottom-14 left-0 bg-slate-900/95 backdrop-blur-xl border border-white/10 rounded-xl shadow-2xl w-[320px] origin-bottom-left overflow-hidden"
           >
             {/* Header */}
             <div className="flex justify-between items-center p-3 bg-white/5 border-b border-white/5">
@@ -120,7 +121,7 @@ export const AccessibilityMenu: React.FC = () => {
                 </div>
             </div>
             
-            <div className="p-3 space-y-3">
+            <div className="p-4 space-y-4">
                 {/* Font Size Control */}
                 <div className="bg-white/5 rounded-lg p-2 flex justify-between items-center">
                     <button 
@@ -142,7 +143,7 @@ export const AccessibilityMenu: React.FC = () => {
                 </div>
 
                 {/* Grid Options */}
-                <div className="grid grid-cols-3 gap-2">
+                <div className="grid grid-cols-3 gap-3">
                     <ToggleButton active={grayscale} onClick={() => setGrayscale(!grayscale)} icon={Sun} label="גווני אפור" />
                     <ToggleButton active={highContrast} onClick={() => setHighContrast(!highContrast)} icon={Contrast} label="ניגודיות" />
                     <ToggleButton active={invertColors} onClick={() => setInvertColors(!invertColors)} icon={Zap} label="היפוך צבעים" />
@@ -163,10 +164,10 @@ export const AccessibilityMenu: React.FC = () => {
         onClick={() => setIsOpen(!isOpen)}
         whileHover={{ scale: 1.05 }}
         whileTap={{ scale: 0.95 }}
-        className={`w-12 h-12 rounded-full flex items-center justify-center shadow-[0_0_20px_rgba(6,182,212,0.3)] transition-all duration-300 ${isOpen ? 'bg-cyan-500 text-black rotate-180' : 'bg-slate-900 text-cyan-400 border border-cyan-500/50 hover:bg-slate-800'}`}
+        className={`w-10 h-10 rounded-full flex items-center justify-center shadow-[0_0_20px_rgba(6,182,212,0.3)] transition-all duration-300 ${isOpen ? 'bg-cyan-500 text-black rotate-180' : 'bg-slate-900 text-cyan-400 border border-cyan-500/50 hover:bg-slate-800'}`}
         aria-label="פתח תפריט נגישות"
       >
-        <Accessibility size={24} className="acc-icon" />
+        <Accessibility size={20} className="acc-icon" />
       </motion.button>
     </div>
   );

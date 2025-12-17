@@ -55,11 +55,13 @@ export const TechSection: React.FC = () => {
                    
                    <div className="space-y-4">
                        <p className="text-lg text-slate-400 leading-relaxed font-light">
-                           העולם השתנה. <strong className="text-white font-medium">היום, בלי נוכחות דיגיטלית חזקה, לא משנה כמה אתה תותח בתחומך – אתה פשוט לא קיים.</strong>
-                           <br className="block mb-2" />
-                           הלקוחות שלך נמצאים במסך, ואם אתה לא שם לתפוס אותם מיד – הם הולכים למתחרה שלך. זה לא מספיק רק "שיהיה אתר יפה", חייבים מכונה שיודעת להפוך גולשים לכסף.
-                           <br className="hidden md:block" /><br className="hidden md:block" />
-                           אני בונה לך סוכן מכירות דיגיטלי שעובד בשבילך 24/7. המערכת מזהה בדיוק מתי הלקוח מהסס ומגישה לו את המסר המדויק שיגרום לו להשאיר פרטים <strong className="text-cyan-400">עכשיו</strong>.
+                           היום, לא משנה כמה אתה תותח או שהמוצר שלך טוב בלי נוכחות דיגיטלית חזקה – <strong className="text-white font-medium">אתה פשוט לא קיים.</strong>
+                           <br className="block mb-4" />
+                           הלקוחות שלך נמצאים במסך, ואם אתה לא שם לתפוס אותם - הם הולכים למתחרה שלך. זה לא מספיק רק "שיהיה אתר יפה", חייבים מכונה שיודעת להפוך גולשים לכסף.
+                           <br className="block mb-4" />
+                           אני לא בונה אתר או דף.
+                           <br />
+                           אני בונה לך <strong className="text-cyan-400">סוכן מכירות דיגיטלי</strong> שעובד בשבילך 24/7. המערכת מזהה בדיוק מתי הלקוח מהסס ומגישה לו את המסר המדויק שיגרום לו להשאיר פרטים עכשיו.
                        </p>
                    </div>
                 </motion.div>
