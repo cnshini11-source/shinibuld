@@ -1,293 +1,264 @@
-import React from 'react';
-import { motion } from 'framer-motion';
-import { Search, PenTool, Database, Rocket, MessageSquare, BarChart, Smartphone, Lock, Server, Zap, Globe, MousePointerClick, Target, Palette, Check } from 'lucide-react';
+
+import React, { useRef } from 'react';
+import { motion, useScroll, useTransform } from 'framer-motion';
+import { 
+  Palette, 
+  Globe, 
+  Zap, 
+  Activity,
+  Search,
+  CheckCircle2,
+  Rocket,
+  ArrowDown,
+  ShieldCheck,
+  Server,
+  CloudLightning
+} from 'lucide-react';
+
+const WhatsAppIcon = ({ className }: { className?: string }) => (
+  <svg viewBox="0 0 24 24" fill="currentColor" className={className} xmlns="http://www.w3.org/2000/svg">
+    <path d="M17.472 14.382c-.297-.149-1.758-.867-2.03-.967-.273-.099-.471-.148-.67.15-.197.297-.767.966-.94 1.164-.173.199-.347.223-.644.075-.297-.15-1.255-.463-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.298-.347.446-.52.149-.174.198-.298.298-.497.099-.198.05-.371-.025-.52-.075-.149-.669-1.612-.916-2.207-.242-.579-.487-.5-.669-.51-.173-.008-.371-.01-.57-.01-.198 0-.52.074-.792.372-.272.297-1.04 1.016-1.04 2.479 0 1.462 1.065 2.875 1.213 3.074.149.198 2.096 3.2 5.077 4.487.709.306 1.262.489 1.694.625.712.227 1.36.195 1.871.118.571-.085 1.758-.719 2.006-1.413.248-.694.248-1.289.173-1.413-.074-.124-.272-.198-.57-.347m-5.421 7.403h-.004a9.87 9.87 0 01-5.031-1.378l-.361-.214-3.741.982.998-3.648-.235-.374a9.86 9.86 0 01-1.51-5.26c.001-5.45 4.436-9.884 9.888-9.884 2.64 0 5.122 1.03 6.988 2.898a9.825 9.825 0 012.893 6.994c-.003 5.45-4.437 9.884-9.885 9.884m8.413-18.297A11.815 11.815 0 0012.05 0C5.495 0 .16 5.335.157 11.892c0 2.096.547 4.142 1.588 5.945L0 24l6.335-1.662c1.72.937 3.659 1.433 5.625 1.433h.005c6.554 0 11.89-5.335 11.893-11.893a11.821 11.821 0 00-3.48-8.413Z" />
+  </svg>
+);
+
+const steps = [
+  {
+    id: 'discovery',
+    number: '01',
+    title: 'אפיון וזיקוק - שנבין מה מניע את הלקוחות שלך',
+    icon: Search,
+    accent: '#06b6d4',
+    desc: 'הכל מתחיל בלהבין מה באמת עובר ללקוח שלך בראש. אנחנו מזקקים את המסר שלך ככה שיהיה חד ופשוט, כזה שגורם לגולש להבין תוך שניות למה הוא חייב לעבוד דווקא איתך.',
+  },
+  {
+    id: 'conversion',
+    number: '02',
+    title: 'תכנון ועיצוב המרות',
+    icon: Palette,
+    accent: '#a855f7',
+    desc: 'אנחנו מתכננים את מבנה האתר כך שכל צבע, כותרת ומיקום של כפתור יובילו את הגולש בביטחון עד להשארת הפרטים. זהו עיצוב מקצועי שנועד לייצר אמון מיידי ולהפוך סקרנות למכירה.',
+  },
+  {
+    id: 'envelope',
+    number: '03',
+    title: 'מעטפת טכנולוגית מלאה (הכל כלול)',
+    icon: Globe,
+    accent: '#3b82f6',
+    desc: 'אפס התעסקות מצדך. אני דואג להכל: רכישת דומיין, אחסון בשרתים המהירים ביותר בעולם, אבטחת SSL וניהול טכני מלא. אתה מקבל מוצר מוגמר שעובד פיקס, בלי שום כאב ראש.',
+  },
+  {
+    id: 'launch',
+    number: '04',
+    title: 'שיגור ואופטימיזציה',
+    icon: Zap,
+    accent: '#10b981',
+    desc: 'מרגע שהאתר באוויר, אני מוודא שכל ליד טס אליך ישר לווצאפ. אנחנו עוקבים אחרי הביצועים ומשפרים את המערכת כדי לוודא שאתה מקבל את המקסימום מהנכס הדיגיטלי שלך.',
+  }
+];
+
+const ProcessStep: React.FC<{ step: typeof steps[0], idx: number }> = ({ step, idx }) => {
+  const containerRef = useRef<HTMLDivElement>(null);
+  const { scrollYProgress } = useScroll({
+    target: containerRef,
+    offset: ["start end", "end start"]
+  });
+
+  // Entry: 0.0 -> 0.2 | Active: 0.2 -> 0.7 | Fly Up: 0.7 -> 1.0
+  // Reduced initial 'y' offset for entry (from 150 to 80) and kept fly-up distance
+  const y = useTransform(scrollYProgress, [0, 0.2, 0.7, 1], [80, 0, 0, -350]);
+  const opacity = useTransform(scrollYProgress, [0, 0.15, 0.75, 1], [0, 1, 1, 0]);
+  const scale = useTransform(scrollYProgress, [0, 0.2, 0.7, 1], [0.9, 1, 1, 0.7]);
+  const rotateX = useTransform(scrollYProgress, [0, 0.2, 0.7, 1], [15, 0, 0, -30]);
+  const filter = useTransform(scrollYProgress, [0.7, 1], ["blur(0px)", "blur(10px)"]);
+
+  const Icon = step.icon;
+
+  return (
+    <motion.div
+      ref={containerRef}
+      style={{ y, opacity, scale, rotateX, filter }}
+      className="relative group will-change-transform py-2" // Reduced vertical padding
+    >
+      <div className="absolute left-1/2 -top-16 -translate-x-1/2 flex flex-col items-center z-20">
+        <div className="w-16 h-16 rounded-2xl bg-slate-900 border border-white/10 flex items-center justify-center relative shadow-2xl group-hover:scale-110 group-hover:rotate-6 transition-all duration-500">
+          <div className="absolute inset-0 rounded-2xl blur-xl opacity-20 group-hover:opacity-60 transition-opacity" style={{ backgroundColor: step.accent }} />
+          <Icon size={28} className="text-white relative z-10" style={{ filter: `drop-shadow(0 0 10px ${step.accent})` }} />
+        </div>
+      </div>
+
+      <div className="relative pt-12 text-center">
+        <div className="absolute top-0 left-1/2 -translate-x-1/2 -translate-y-8 opacity-[0.03] select-none pointer-events-none text-[12rem] font-black text-white leading-none">
+          {step.number}
+        </div>
+
+        <div className="relative z-10">
+          <h3 className="text-3xl md:text-5xl font-black text-white mb-4 group-hover:text-cyan-400 transition-colors px-2">
+            {step.title}
+          </h3>
+          <p className="text-slate-400 text-lg md:text-2xl leading-relaxed font-light max-w-2xl mx-auto px-4">
+            {step.desc}
+          </p>
+          
+          <div className="mt-6 flex items-center justify-center gap-4">
+            <div className="flex items-center gap-2 text-[10px] text-slate-500 font-bold tracking-widest uppercase">
+              <CheckCircle2 size={14} className="text-cyan-500" />
+              <span>ניהול מלא</span>
+            </div>
+            <div className="h-px w-8 bg-white/5" />
+            <div className="flex items-center gap-2 text-[10px] text-slate-500 font-bold tracking-widest uppercase">
+              <CheckCircle2 size={14} className="text-cyan-500" />
+              <span>אופטימיזציית המרות</span>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      {idx < steps.length - 1 && (
+        <div className="mt-6 flex justify-center text-slate-800/50">
+          <ArrowDown size={24} strokeWidth={1.5} className="animate-bounce" />
+        </div>
+      )}
+    </motion.div>
+  );
+};
 
 export const ProcessSection: React.FC = () => {
   return (
-    <section id="lead-machine" className="pt-24 pb-4 bg-slate-950 relative overflow-hidden scroll-mt-32">
-      {/* Background Elements - Optimized */}
-      <div className="absolute top-0 right-0 w-[500px] h-[500px] bg-blue-900/10 rounded-full blur-[100px] pointer-events-none transform-gpu will-change-transform" />
-      <div className="absolute bottom-0 left-0 w-[500px] h-[500px] bg-purple-900/10 rounded-full blur-[100px] pointer-events-none transform-gpu will-change-transform" />
+    <section id="process" className="py-24 bg-slate-950 relative overflow-hidden">
+      {/* Cinematic Ambient Background */}
+      <div className="absolute inset-0 bg-[radial-gradient(circle_at_50%_0%,rgba(6,182,212,0.1),transparent_70%)] pointer-events-none" />
+      <div className="absolute inset-0 bg-[linear-gradient(rgba(255,255,255,0.01)_1px,transparent_1px),linear-gradient(90deg,rgba(255,255,255,0.01)_1px,transparent_1px)] bg-[size:40px_40px] pointer-events-none" />
       
-      <div className="max-w-7xl mx-auto px-6 relative z-10">
+      <div className="max-w-4xl mx-auto px-6 relative z-10">
         
+        {/* SECTION HEADER */}
+        <div className="text-center mb-24">
+            <motion.div 
+                initial={{ opacity: 0, y: 10 }}
+                whileInView={{ opacity: 1, y: 0 }}
+                viewport={{ once: true }}
+                className="inline-flex items-center gap-2 px-4 py-2 rounded-full bg-cyan-950/20 border border-cyan-500/20 text-cyan-400 font-mono text-[10px] font-bold tracking-[0.3em] uppercase mb-8"
+            >
+                <Activity size={12} className="animate-pulse" />
+                <span>Production Sequence v4.0</span>
+            </motion.div>
+            <motion.h2 
+                initial={{ opacity: 0, y: 20 }}
+                whileInView={{ opacity: 1, y: 0 }}
+                viewport={{ once: true }}
+                className="text-5xl md:text-8xl font-black text-white mb-6 tracking-tighter"
+            >
+                הדרך <span className="text-transparent bg-clip-text bg-gradient-to-l from-cyan-400 to-blue-600 font-black">שלנו</span>
+            </motion.h2>
+            <motion.div 
+                initial={{ width: 0 }}
+                whileInView={{ width: 100 }}
+                viewport={{ once: true }}
+                className="h-1 bg-cyan-500 mx-auto rounded-full shadow-[0_0_15px_#06b6d4]"
+            />
+        </div>
+
+        {/* THE VERTICAL HOLOGRAPHIC FLOW */}
+        <div className="relative">
+            {/* The Central Data Beam */}
+            <div className="absolute left-1/2 top-0 bottom-0 w-px bg-gradient-to-b from-transparent via-cyan-500/30 to-transparent -translate-x-1/2" />
+
+            <div className="space-y-4 relative"> {/* Significantly reduced spacing from space-y-24 */}
+                {steps.map((step, idx) => (
+                    <ProcessStep key={step.id} step={step} idx={idx} />
+                ))}
+            </div>
+        </div>
+
+        {/* REFINED & COMPACT 360 ENVELOPE BOX */}
         <motion.div 
-          initial={{ opacity: 0, y: 30 }}
-          whileInView={{ opacity: 1, y: 0 }}
-          viewport={{ once: true }}
-          className="text-center mb-16 max-w-4xl mx-auto"
-        >
-          <h2 className="text-4xl md:text-5xl font-black text-white mb-4 leading-tight">
-            מכונת לידים
-          </h2>
-          <p className="text-lg text-slate-300">
-            תהליך עבודה מדויק, שקוף ומבוסס נתונים. אני בונה עבורך נכס דיגיטלי שעובד.
-          </p>
-        </motion.div>
-
-        <div className="space-y-20 relative">
-          
-          {/* Vertical Line Connector */}
-          <div className="absolute top-0 bottom-20 left-1/2 w-px bg-gradient-to-b from-transparent via-cyan-500/30 to-transparent -translate-x-1/2 hidden lg:block" />
-
-          {/* STEP 1: Discovery (Right) */}
-          <div className="flex flex-col lg:flex-row gap-8 lg:gap-10 items-center relative">
-             {/* Visual/Icon Side - Smaller & Tighter */}
-             <motion.div 
-                className="lg:w-1/2 flex justify-center lg:justify-end lg:pl-10 order-2 lg:order-1 w-full"
-                initial={{ opacity: 0, x: -50 }}
-                whileInView={{ opacity: 1, x: 0 }}
-                viewport={{ once: true }}
-             >
-                <div className="relative w-full max-w-[260px] md:max-w-[280px] bg-slate-900/50 backdrop-blur-md border border-white/10 rounded-3xl p-5 flex flex-col justify-center gap-3 group hover:border-blue-500/30 transition-all duration-500 transform-gpu mx-auto lg:mx-0">
-                    <div className="absolute inset-0 bg-blue-500/5 rounded-3xl opacity-0 group-hover:opacity-100 transition-opacity" />
-                    
-                    {/* Floating Icons Grid - Compact */}
-                    <div className="grid grid-cols-2 gap-2.5 relative z-10">
-                        <div className="bg-slate-800/50 p-2.5 rounded-xl border border-white/5 flex flex-col items-center gap-1.5 hover:bg-slate-800 transition-colors">
-                             <Search className="text-blue-400 w-5 h-5" />
-                             <span className="text-[10px] text-slate-400 font-medium">מחקר שוק</span>
-                        </div>
-                        <div className="bg-slate-800/50 p-2.5 rounded-xl border border-white/5 flex flex-col items-center gap-1.5 hover:bg-slate-800 transition-colors">
-                             <BarChart className="text-blue-400 w-5 h-5" />
-                             <span className="text-[10px] text-slate-400 font-medium">ניתוח מתחרים</span>
-                        </div>
-                        <div className="bg-slate-800/50 p-2.5 rounded-xl border border-white/5 flex flex-col items-center gap-1.5 hover:bg-slate-800 transition-colors">
-                             <MessageSquare className="text-blue-400 w-5 h-5" />
-                             <span className="text-[10px] text-slate-400 font-medium">זיקוק מסרים</span>
-                        </div>
-                        <div className="bg-slate-800/50 p-2.5 rounded-xl border border-white/5 flex flex-col items-center gap-1.5 hover:bg-slate-800 transition-colors">
-                             <Target className="text-blue-400 w-5 h-5" />
-                             <span className="text-[10px] text-slate-400 font-medium">הגדרת יעדים</span>
-                        </div>
-                    </div>
-                </div>
-             </motion.div>
-
-             {/* Text Side */}
-             <motion.div 
-               className="lg:w-1/2 lg:pr-10 order-1 lg:order-2 text-right w-full"
-               initial={{ opacity: 0, x: 50 }}
-               whileInView={{ opacity: 1, x: 0 }}
-               viewport={{ once: true }}
-             >
-                <div className="flex items-center gap-3 mb-3 justify-end lg:justify-start">
-                   <span className="text-5xl font-black text-white/5 absolute -top-6 -right-4 select-none pointer-events-none">01</span>
-                   <div className="px-2.5 py-0.5 rounded-full bg-blue-500/10 border border-blue-500/20 text-blue-400 text-[10px] font-bold tracking-widest uppercase">
-                      אפיון ואסטרטגיה
-                   </div>
-                </div>
-                <h3 className="text-2xl font-bold text-white mb-3">אני יורד לשורש העסק שלך</h3>
-                <p className="text-slate-400 text-base leading-relaxed mb-4">
-                    לפני הכל, אנחנו עושים שיחת אפיון פשוטה. בלי מילים מסובכות ובלי שאלונים מייגעים.
-                    בשיחה הזו נבין ביחד מי הלקוחות שלך, מה באמת מניע אותם, ומה הדבר האחד שיגרום להם להוציא את האשראי דווקא אצלך.
-                </p>
-                <ul className="space-y-2">
-                    <li className="flex items-center gap-2 text-slate-300 text-sm">
-                        <div className="w-1.5 h-1.5 bg-blue-500 rounded-full" />
-                        שיחת אפיון לזיהוי המניע המרכזי של הלקוח.
-                    </li>
-                    <li className="flex items-center gap-2 text-slate-300 text-sm">
-                        <div className="w-1.5 h-1.5 bg-blue-500 rounded-full" />
-                        הבנה פשוטה של "מה גורם להם לפעול?".
-                    </li>
-                    <li className="flex items-center gap-2 text-slate-300 text-sm">
-                        <div className="w-1.5 h-1.5 bg-blue-500 rounded-full" />
-                        בניית מסר חד שכל לקוח יבין מיד.
-                    </li>
-                </ul>
-             </motion.div>
-          </div>
-
-          {/* STEP 2: Design (Left) */}
-          <div className="flex flex-col lg:flex-row gap-8 lg:gap-10 items-center relative">
-             {/* Text Side */}
-             <motion.div 
-               className="lg:w-1/2 lg:pl-10 order-1 text-right lg:text-right w-full"
-               initial={{ opacity: 0, x: -50 }}
-               whileInView={{ opacity: 1, x: 0 }}
-               viewport={{ once: true }}
-             >
-                <div className="flex items-center gap-3 mb-3 justify-end lg:justify-start">
-                   <span className="text-5xl font-black text-white/5 absolute -top-6 -right-4 select-none pointer-events-none">02</span>
-                   <div className="px-2.5 py-0.5 rounded-full bg-purple-500/10 border border-purple-500/20 text-purple-400 text-[10px] font-bold tracking-widest uppercase">
-                      UI/UX ועיצוב
-                   </div>
-                </div>
-                <h3 className="text-2xl font-bold text-white mb-3">עיצוב פסיכולוגי ממוקד המרה</h3>
-                <p className="text-slate-400 text-base leading-relaxed mb-4">
-                    אני לא רק מעצב אתר שיהיה "יפה", אלא בונה חוויה.
-                    כל צבע, כפתור, פונט ואנימציה ממוקמים על ידי במחשבה תחילה ובאסטרטגיה ברורה: לשדר יוקרה, לבנות סמכות מיידית, ולייצר אצל הגולש דחף בלתי נשלט להמשיך לקרוא ולבצע פעולה.
-                </p>
-                <ul className="space-y-2">
-                    <li className="flex items-center gap-2 text-slate-300 text-sm">
-                        <div className="w-1.5 h-1.5 bg-purple-500 rounded-full" />
-                        שימוש בטריגרים פסיכולוגיים למניעת נטישה.
-                    </li>
-                    <li className="flex items-center gap-2 text-slate-300 text-sm">
-                        <div className="w-1.5 h-1.5 bg-purple-500 rounded-full" />
-                        עיצוב ייחודי (Custom Made) שלא נראה כמו שום תבנית אחרת.
-                    </li>
-                </ul>
-             </motion.div>
-
-             {/* Visual Side - Alive & Dynamic */}
-             <motion.div 
-                className="lg:w-1/2 flex justify-center lg:justify-start lg:pr-10 order-2 w-full"
-                initial={{ opacity: 0, x: 50 }}
-                whileInView={{ opacity: 1, x: 0 }}
-                viewport={{ once: true }}
-             >
-                <div className="relative w-full max-w-[260px] md:max-w-[280px] bg-slate-900/50 backdrop-blur-md border border-white/10 rounded-3xl p-6 flex flex-col items-center justify-center gap-5 group hover:border-purple-500/30 transition-all duration-500 transform-gpu mx-auto lg:mx-0 overflow-hidden">
-                    <div className="absolute inset-0 bg-purple-500/5 rounded-3xl opacity-0 group-hover:opacity-100 transition-opacity" />
-                    
-                    {/* Animated "Buy" Button Simulation */}
-                    <div className="relative w-full p-4 bg-slate-800/50 rounded-xl border border-white/5 flex flex-col items-center gap-3">
-                         {/* Color Palette Element (Floating) */}
-                         <div className="absolute -top-3 -right-3 p-1.5 bg-slate-800 rounded-lg border border-white/10 flex gap-1 shadow-lg transform rotate-12">
-                             <div className="w-2.5 h-2.5 rounded-full bg-purple-500" />
-                             <div className="w-2.5 h-2.5 rounded-full bg-cyan-500" />
-                             <div className="w-2.5 h-2.5 rounded-full bg-pink-500" />
-                         </div>
-
-                         <div className="w-20 h-2 bg-slate-700 rounded-full mb-1" />
-                         <div className="w-32 h-2 bg-slate-700/50 rounded-full" />
-                         
-                         {/* The Pulsing CTA Button */}
-                         <div className="relative mt-2 px-6 py-2 rounded-lg bg-gradient-to-r from-purple-500 to-pink-500 text-white text-[10px] font-bold shadow-lg shadow-purple-500/30 animate-pulse flex items-center gap-1.5">
-                             <span>להזמנה</span>
-                             <Check className="w-3 h-3" />
-                         </div>
-
-                         {/* Moving Cursor Animation */}
-                         <div className="absolute bottom-1 right-8 pointer-events-none animate-[bounce_2s_infinite]">
-                             <MousePointerClick className="w-5 h-5 text-white fill-purple-500 drop-shadow-md" />
-                         </div>
-                    </div>
-
-                    <div className="flex items-center gap-2 text-[10px] text-purple-300 font-mono">
-                        <Palette className="w-3 h-3" />
-                        <span>עיצוב מניע לפעולה</span>
-                    </div>
-                </div>
-             </motion.div>
-          </div>
-
-          {/* STEP 3: Tech Wrapper (Right) */}
-          <div className="flex flex-col lg:flex-row gap-8 lg:gap-10 items-center relative">
-             {/* Visual/Icon Side */}
-             <motion.div 
-                className="lg:w-1/2 flex justify-center lg:justify-end lg:pl-10 order-2 lg:order-1 w-full"
-                initial={{ opacity: 0, x: -50 }}
-                whileInView={{ opacity: 1, x: 0 }}
-                viewport={{ once: true }}
-             >
-                {/* Changed backdrop-blur-xl to backdrop-blur-md for better performance */}
-                <div className="relative w-full max-w-sm bg-slate-900/50 backdrop-blur-md border border-white/10 rounded-3xl p-6 flex flex-col justify-center gap-4 group hover:border-cyan-500/30 transition-all duration-500 transform-gpu mx-auto lg:mx-0">
-                    <div className="absolute inset-0 bg-cyan-500/5 rounded-3xl opacity-0 group-hover:opacity-100 transition-opacity" />
-                    
-                    <div className="space-y-3">
-                        <div className="flex items-center justify-between p-3 bg-slate-800/50 rounded-xl border border-white/5">
-                             <div className="flex items-center gap-3">
-                                 <div className="p-1.5 bg-green-500/20 rounded-lg"><Smartphone className="w-4 h-4 text-green-400" /></div>
-                                 <span className="text-xs font-bold text-slate-300">WhatsApp API</span>
-                             </div>
-                             <div className="w-1.5 h-1.5 rounded-full bg-green-400 shadow-[0_0_10px_rgba(74,222,128,0.5)]" />
-                        </div>
-                        {/* CRM Row Removed */}
-                        <div className="flex items-center justify-between p-3 bg-slate-800/50 rounded-xl border border-white/5">
-                             <div className="flex items-center gap-3">
-                                 <div className="p-1.5 bg-cyan-500/20 rounded-lg"><Lock className="w-4 h-4 text-cyan-400" /></div>
-                                 <span className="text-xs font-bold text-slate-300">SSL Security</span>
-                             </div>
-                             <div className="w-1.5 h-1.5 rounded-full bg-cyan-400 shadow-[0_0_10px_rgba(34,211,238,0.5)]" />
-                        </div>
-                    </div>
-                </div>
-             </motion.div>
-
-             {/* Text Side */}
-             <motion.div 
-               className="lg:w-1/2 lg:pr-10 order-1 lg:order-2 text-right w-full"
-               initial={{ opacity: 0, x: 50 }}
-               whileInView={{ opacity: 1, x: 0 }}
-               viewport={{ once: true }}
-             >
-                <div className="flex items-center gap-3 mb-3 justify-end lg:justify-start">
-                   <span className="text-5xl font-black text-white/5 absolute -top-6 -right-4 select-none pointer-events-none">03</span>
-                   <div className="px-2.5 py-0.5 rounded-full bg-cyan-500/10 border border-cyan-500/20 text-cyan-400 text-[10px] font-bold tracking-widest uppercase">
-                      מעטפת טכנולוגית
-                   </div>
-                </div>
-                <h3 className="text-2xl font-bold text-white mb-3">אני דואג להכל – אפס כאב ראש בשבילך</h3>
-                <p className="text-slate-400 text-base leading-relaxed mb-4">
-                    אתה לא צריך להתעסק בטכנולוגיה, שרתים או הגדרות מסובכות. אני בונה לך מעטפת מלאה שפשוט עובדת.
-                    מהרגע הראשון, האתר מאובטח, מהיר ומחובר לנייד שלך. אתה מתרכז בלענות ללקוחות, אני דואג שכל השאר יתקתק.
-                </p>
-                <ul className="space-y-2">
-                    <li className="flex items-center gap-2 text-slate-300 text-sm">
-                        <div className="w-1.5 h-1.5 bg-cyan-500 rounded-full" />
-                        קבלת לידים חמים ישירות לווצאפ או למייל שלך.
-                    </li>
-                    <li className="flex items-center gap-2 text-slate-300 text-sm">
-                        <div className="w-1.5 h-1.5 bg-cyan-500 rounded-full" />
-                        מעטפת טכנית מלאה – אחסון, אבטחה ודומיין עליי.
-                    </li>
-                </ul>
-             </motion.div>
-          </div>
-
-          {/* STEP 4: Launch (Centered & Large) */}
-          <motion.div 
             initial={{ opacity: 0, y: 50 }}
             whileInView={{ opacity: 1, y: 0 }}
             viewport={{ once: true }}
-            className="relative mt-16 max-w-4xl mx-auto"
-          >
-              <div className="absolute inset-0 bg-gradient-to-r from-cyan-500 via-blue-500 to-purple-500 rounded-[2rem] blur opacity-20 transform-gpu" />
-              <div className="relative bg-slate-900 border border-white/10 rounded-[2rem] p-6 md:p-8 overflow-hidden text-center transform-gpu">
-                  
-                  {/* Grid Background inside card */}
-                  <div className="absolute inset-0 bg-[linear-gradient(rgba(255,255,255,0.02)_1px,transparent_1px),linear-gradient(90deg,rgba(255,255,255,0.02)_1px,transparent_1px)] bg-[size:40px_40px]" />
+            className="mt-8 pb-12 text-center relative flex flex-col items-center"
+        >
+            {/* Decorative Line Connector - Shorter */}
+            <div className="absolute top-0 left-1/2 -translate-x-1/2 w-[1px] h-12 bg-gradient-to-b from-cyan-500/30 to-transparent" />
+            
+            <div className="pt-12 w-full max-w-lg">
+                <div className="relative bg-slate-900/40 backdrop-blur-3xl border border-white/10 rounded-[2rem] p-6 md:p-8 mb-6 shadow-[0_0_60px_rgba(6,182,212,0.1)] group overflow-hidden">
+                    <div className="absolute top-0 right-0 w-40 h-40 bg-cyan-500/10 blur-[80px] rounded-full opacity-40 group-hover:opacity-80 transition-opacity" />
+                    <div className="absolute bottom-0 left-0 w-40 h-40 bg-blue-600/10 blur-[80px] rounded-full opacity-40 group-hover:opacity-80 transition-opacity" />
+                    
+                    <div className="relative z-10">
+                        <div className="mb-8">
+                            <motion.div 
+                                animate={{ scale: [1, 1.05, 1] }}
+                                transition={{ duration: 4, repeat: Infinity }}
+                                className="w-12 h-12 bg-cyan-500/10 rounded-xl border border-cyan-500/20 flex items-center justify-center mx-auto mb-4 shadow-[0_0_15px_rgba(6,182,212,0.1)]"
+                            >
+                                <ShieldCheck className="text-cyan-400 w-6 h-6" />
+                            </motion.div>
+                            <h4 className="text-2xl md:text-4xl font-black text-white tracking-tighter mb-2">
+                                מעטפת <span className="text-cyan-400">360</span>
+                            </h4>
+                            <p className="text-slate-400 text-sm font-light max-w-xs mx-auto">
+                                פתרון קצה לקצה שמשאיר אותך בראש שקט.
+                            </p>
+                        </div>
 
-                  <div className="relative z-10 flex flex-col items-center">
-                      <div className="w-16 h-16 rounded-2xl bg-gradient-to-br from-cyan-500 to-blue-600 flex items-center justify-center shadow-lg shadow-cyan-500/40 mb-6">
-                          <Rocket className="w-8 h-8 text-white" />
-                      </div>
+                        <div className="grid grid-cols-1 gap-3 mb-8 text-right">
+                            <div className="p-3 bg-white/5 rounded-xl border border-white/5 flex items-start gap-3 transition-all hover:bg-white/10">
+                                <div className="w-8 h-8 rounded-lg bg-cyan-500/10 flex items-center justify-center shrink-0">
+                                    <Server className="text-cyan-400 w-4 h-4" />
+                                </div>
+                                <div>
+                                    <span className="text-white font-bold text-xs block mb-0.5">אחסון</span>
+                                    <p className="text-slate-400 text-[10px] leading-relaxed">שרתים חזקים ומהירים שדואגים שהאתר שלך יעלה בטיל ולא יתקע לעולם.</p>
+                                </div>
+                            </div>
 
-                      <h3 className="text-3xl md:text-4xl font-black text-white mb-4">השקה, הדרכה ויציאה לדרך משותפת</h3>
-                      <p className="text-lg text-slate-300 max-w-2xl mx-auto mb-8 leading-relaxed">
-                          רגע העלייה לאוויר הוא מרגש, אבל אני לא עוזב אותך שם.
-                          אני נשאר בתמונה, מספק הדרכה אישית ומפורטת על איך לתפעל את המכונה שבניתי לך, ואיך לקרוא את הנתונים כדי למקסם רווחים באופן שוטף. ההצלחה שלך היא כרטיס הביקור שלי.
-                      </p>
+                            <div className="p-3 bg-white/5 rounded-xl border border-white/5 flex items-start gap-3 transition-all hover:bg-white/10">
+                                <div className="w-8 h-8 rounded-lg bg-blue-500/10 flex items-center justify-center shrink-0">
+                                    <Globe className="text-blue-400 w-4 h-4" />
+                                </div>
+                                <div>
+                                    <span className="text-white font-bold text-xs block mb-0.5">דומיין</span>
+                                    <p className="text-slate-400 text-[10px] leading-relaxed">הכתובת הרשמית של העסק שלך באינטרנט. רשום על שמך ובבעלותך המלאה.</p>
+                                </div>
+                            </div>
 
-                      <div className="grid grid-cols-1 md:grid-cols-3 gap-5 w-full max-w-4xl">
-                          <div className="bg-slate-800/50 p-5 rounded-2xl border border-white/5 flex flex-col items-center hover:bg-slate-800 transition-colors">
-                              <Server className="text-yellow-400 w-6 h-6 mb-3" />
-                              <h4 className="font-bold text-white mb-1.5">אחסון אתרים</h4>
-                              <p className="text-xs text-slate-400">אני דואג לאחסון מהיר כברק. האתר שלך תמיד זמין.</p>
-                          </div>
-                          <div className="bg-slate-800/50 p-5 rounded-2xl border border-white/5 flex flex-col items-center hover:bg-slate-800 transition-colors">
-                              <Globe className="text-cyan-400 w-6 h-6 mb-3" />
-                              <h4 className="font-bold text-white mb-1.5">חיבור דומיין</h4>
-                              <p className="text-xs text-slate-400">הכתובת העסקית שלך מחוברת ומוכנה. הכל עליי.</p>
-                          </div>
-                          <div className="bg-slate-800/50 p-5 rounded-2xl border border-white/5 flex flex-col items-center hover:bg-slate-800 transition-colors">
-                              <div className="relative mb-3">
-                                {/* WhatsApp Icon */}
-                                <svg width="24" height="24" viewBox="0 0 24 24" fill="#25D366" xmlns="http://www.w3.org/2000/svg" className="drop-shadow-sm">
-                                    <path fillRule="evenodd" clipRule="evenodd" d="M18.403 5.633A8.919 8.919 0 0 0 12.053 3c-4.948 0-8.976 4.027-8.978 8.977 0 1.582.413 3.126 1.198 4.488L3 21.116l4.759-1.249a8.981 8.981 0 0 0 4.29 1.093h.004c4.947 0 8.975-4.027 8.977-8.977a8.926 8.926 0 0 0-2.627-6.35m-6.35 13.812h-.003a7.446 7.446 0 0 1-3.798-1.041l-.272-.162-2.824.741.753-2.753-.177-.282a7.448 7.448 0 0 1-1.141-3.971c.002-4.114 3.349-7.461 7.465-7.461a7.413 7.413 0 0 1 5.275 2.188 7.42 7.42 0 0 1 2.183 5.279c-.002 4.114-3.349 7.462-7.461 7.462m4.093-5.589c-.225-.113-1.327-.655-1.533-.73-.205-.075-.354-.112-.504.112-.149.224-.579.73-.709.88-.131.149-.261.168-.486.056-.224-.112-.953-.351-1.815-1.12-.669-.597-1.12-1.335-1.25-1.56-.13-.224-.014-.345.098-.458.101-.101.224-.262.336-.393.112-.131.149-.224.224-.374.075-.149.037-.28-.019-.393-.056-.113-.504-1.214-.69-1.663-.181-.435-.366-.376-.504-.383-.13-.006-.28-.006-.429-.006-.15 0-.393.056-.599.28-.205.225-.785.767-.785 1.871 0 1.104.804 2.171.916 2.32.112.15 1.582 2.415 3.832 3.387.536.231.954.369 1.279.473.537.171 1.026.146 1.413.089.431-.064 1.327-.542 1.514-1.066.187-.524.187-.973.131-1.066-.056-.094-.206-.15-.43-.263" />
-                                </svg>
-                              </div>
-                              <h4 className="font-bold text-white mb-1.5">תמיכה אישית</h4>
-                              <p className="text-xs text-slate-400">יש לך למי לפנות. אני זמין לכל שאלה בוואטסאפ.</p>
-                          </div>
-                      </div>
-                  </div>
-              </div>
-          </motion.div>
+                            <div className="p-3 bg-white/5 rounded-xl border border-white/5 flex items-start gap-3 transition-all hover:bg-white/10">
+                                <div className="w-8 h-8 rounded-lg bg-[#25D366]/10 flex items-center justify-center shrink-0">
+                                    <WhatsAppIcon className="text-[#25D366] w-5 h-5" />
+                                </div>
+                                <div>
+                                    <span className="text-white font-bold text-xs block mb-0.5">תמיכה אישית בווצאפ</span>
+                                    <p className="text-slate-400 text-[10px] leading-relaxed">הווצאפ האישי שלי פתוח לכל שאלה או עזרה שצריך. בלי נציגים ובלי בוטים.</p>
+                                </div>
+                            </div>
+                        </div>
 
-        </div>
+                        <div className="flex flex-col items-center">
+                            <a 
+                                href="https://wa.me/972538227778" 
+                                target="_blank" 
+                                rel="noopener noreferrer"
+                                className="group relative w-full px-10 py-4 bg-cyan-500 text-black font-black text-lg rounded-lg transition-all duration-300 hover:scale-[1.02] hover:shadow-[0_0_40px_rgba(6,182,212,0.4)] overflow-hidden"
+                            >
+                                <div className="absolute inset-0 bg-gradient-to-r from-white/0 via-white/20 to-white/0 -translate-x-full group-hover:translate-x-full transition-transform duration-1000" />
+                                
+                                <span className="flex items-center justify-center gap-2 relative z-10">
+                                    בוא נבנה מכונה
+                                    <Rocket size={20} className="group-hover:-translate-y-1 group-hover:translate-x-1 transition-transform" />
+                                </span>
+                            </a>
+                            
+                            <div className="mt-5 flex items-center gap-3 text-slate-500 font-bold text-[9px] tracking-widest uppercase">
+                                <CloudLightning size={10} className="text-cyan-500 animate-pulse" />
+                                <span>LEVI DIGITAL SOLUTIONS | PREMIUM ONLY</span>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </motion.div>
+
       </div>
     </section>
   );

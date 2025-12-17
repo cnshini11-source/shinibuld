@@ -71,8 +71,8 @@ export const PortfolioCarousel: React.FC = () => {
 
       <div className="w-full max-w-6xl mx-auto px-6 relative z-10 flex flex-col items-center">
         
-        {/* Header - Reduced margin */}
-        <div className="text-center mb-8 max-w-xl">
+        {/* Header - Reduced margin significantly for mobile */}
+        <div className="text-center mb-2 md:mb-12 max-w-xl">
             <motion.div 
               initial={{ opacity: 0, y: 10 }}
               whileInView={{ opacity: 1, y: 0 }}

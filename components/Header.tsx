@@ -1,3 +1,4 @@
+
 import React, { useState } from 'react';
 import { useScroll, useMotionValueEvent } from 'framer-motion';
 import { Rocket } from 'lucide-react';
@@ -6,7 +7,6 @@ export const Header: React.FC = () => {
   const { scrollY } = useScroll();
   const [isScrolled, setIsScrolled] = useState(false);
 
-  // Optimized: Only trigger update when crossing the threshold, not every pixel
   useMotionValueEvent(scrollY, "change", (latest) => {
     if (latest > 50 && !isScrolled) {
         setIsScrolled(true);
@@ -34,15 +34,11 @@ export const Header: React.FC = () => {
           onClick={scrollToTop}
           className="flex items-center gap-4 md:gap-5 cursor-pointer group select-none"
         >
-          {/* Icon Container */}
           <div className="relative flex items-center justify-center">
-            {/* Simple static glow on hover instead of continuous pulse */}
             <div className="absolute inset-0 bg-cyan-400/20 blur-lg rounded-full opacity-0 group-hover:opacity-100 transition-opacity duration-300" />
-            
             <Rocket className="text-cyan-400 w-10 h-10 md:w-12 md:h-12 relative z-10 transform group-hover:-rotate-45 transition-transform duration-300" />
           </div>
 
-          {/* Text */}
           <div className="relative">
              <span className="text-4xl md:text-6xl font-black tracking-wider text-white group-hover:text-cyan-200 transition-colors duration-300">
                 LEVI
