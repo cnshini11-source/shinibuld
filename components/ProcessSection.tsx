@@ -15,7 +15,8 @@ const steps = [
     desc: 'אנחנו צוללים לעומק העסק שלך. לא עוד שיחה שטחית, אלא ניתוח מדויק של קהל היעד, המתחרים והמסרים שיהפכו גולש אדיש ללקוח משלם. אנחנו מכינים את הקרקע להצלחה ומגדירים בדיוק מה המטרה העסקית של האתר.',
     icon: MessageCircle,
     color: 'text-blue-400',
-    border: 'group-hover:border-blue-500/50',
+    // Premium Halo & Border Styles
+    premiumStyle: 'shadow-[0_0_40px_-10px_rgba(59,130,246,0.2)] hover:shadow-[0_0_60px_-5px_rgba(59,130,246,0.5)] border-blue-500/20 hover:border-blue-400/60',
     gradient: 'from-blue-500/20'
   },
   {
@@ -24,7 +25,8 @@ const steps = [
     desc: 'עיצוב שמושך תשומת לב וטקסט שמוביל לפעולה. אנחנו בונים מסר ברור ומדויק שגורם לגולש להבין מהר, להרגיש בטוח – ולהשאיר פרטים. כל כפתור וכל מילה נועדו להביא תוצאות.',
     icon: PenTool,
     color: 'text-purple-400',
-    border: 'group-hover:border-purple-500/50',
+    // Premium Halo & Border Styles
+    premiumStyle: 'shadow-[0_0_40px_-10px_rgba(168,85,247,0.2)] hover:shadow-[0_0_60px_-5px_rgba(168,85,247,0.5)] border-purple-500/20 hover:border-purple-400/60',
     gradient: 'from-purple-500/20'
   },
   {
@@ -33,7 +35,8 @@ const steps = [
     desc: 'פיתוח בקוד נקי ומהיר ללא פשרות. האתר שלך יעבוד חלק כמו אפליקציה, יתאים בצורה מושלמת לכל מסך (רספונסיביות מלאה) וידורג גבוה בגוגל בזכות ביצועים מהירים. אנחנו בונים נכס דיגיטלי יציב ואמין.',
     icon: Zap,
     color: 'text-yellow-400',
-    border: 'group-hover:border-yellow-500/50',
+    // Premium Halo & Border Styles
+    premiumStyle: 'shadow-[0_0_40px_-10px_rgba(234,179,8,0.2)] hover:shadow-[0_0_60px_-5px_rgba(234,179,8,0.5)] border-yellow-500/20 hover:border-yellow-400/60',
     gradient: 'from-yellow-500/20'
   },
   {
@@ -42,7 +45,8 @@ const steps = [
     desc: 'רגע האמת. אנחנו מעלים את המערכת לאוויר, מבצעים בדיקות QA מקיפות לוודא שכל פיקסל במקום, ומציידים אותך בהדרכה מלאה: איך לנהל את האתר, איך לקרוא נתונים ואיך להתחיל לראות תוצאות בזמן אמת.',
     icon: Rocket,
     color: 'text-cyan-400',
-    border: 'group-hover:border-cyan-500/50',
+    // Premium Halo & Border Styles
+    premiumStyle: 'shadow-[0_0_40px_-10px_rgba(6,182,212,0.2)] hover:shadow-[0_0_60px_-5px_rgba(6,182,212,0.5)] border-cyan-500/20 hover:border-cyan-400/60',
     gradient: 'from-cyan-500/20'
   }
 ];
@@ -90,7 +94,12 @@ const Card: React.FC<CardProps> = ({
         }}
         className="relative flex flex-col w-full max-w-md origin-top"
       >
-        <div className={`relative overflow-hidden rounded-[2rem] bg-[#0a0a0e] border border-white/10 p-8 flex flex-col gap-6 transition-all duration-500 ${step.border} group shadow-2xl min-h-[500px] justify-between z-10`}>
+        {/* 
+            CARD CONTAINER UPDATES:
+            - Changed bg-[#0a0a0e] to bg-black/40 + backdrop-blur-2xl (Glass Effect)
+            - Replaced generic border with step.premiumStyle for colored borders & glowing halos
+        */}
+        <div className={`relative overflow-hidden rounded-[2rem] bg-black/40 backdrop-blur-2xl border p-8 flex flex-col gap-6 transition-all duration-500 ${step.premiumStyle} group min-h-[500px] justify-between z-10`}>
             
             {/* Dynamic Hover Gradient */}
             <div className={`absolute inset-0 bg-gradient-to-br ${step.gradient} to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-700 pointer-events-none`} />
@@ -109,7 +118,7 @@ const Card: React.FC<CardProps> = ({
                 <div className="flex-shrink-0 mt-4">
                     <div className="relative">
                         <div className={`absolute inset-0 blur-2xl opacity-30 ${step.color.replace('text-', 'bg-')}`} />
-                        <div className={`w-20 h-20 rounded-2xl bg-[#15151a] border border-white/10 flex items-center justify-center ${step.color} shadow-lg relative z-10`}>
+                        <div className={`w-20 h-20 rounded-2xl bg-[#15151a]/50 border border-white/10 flex items-center justify-center ${step.color} shadow-lg relative z-10 backdrop-blur-md`}>
                             <step.icon size={36} strokeWidth={1.5} />
                         </div>
                     </div>
@@ -120,14 +129,14 @@ const Card: React.FC<CardProps> = ({
                     <h3 className="text-3xl font-bold text-white mb-6 group-hover:text-cyan-50 transition-colors">
                         {step.title}
                     </h3>
-                    <p className="text-slate-400 text-lg leading-relaxed font-light">
+                    <p className="text-slate-300 text-lg leading-relaxed font-light">
                         {step.desc}
                     </p>
                 </div>
             </div>
 
             {/* Top Shine Line */}
-            <div className="absolute top-0 left-0 w-full h-[1px] bg-gradient-to-r from-transparent via-white/20 to-transparent" />
+            <div className="absolute top-0 left-0 w-full h-[1px] bg-gradient-to-r from-transparent via-white/30 to-transparent" />
         </div>
       </motion.div>
     </div>
