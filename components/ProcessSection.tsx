@@ -96,10 +96,10 @@ const Card: React.FC<CardProps> = ({
       >
         {/* 
             CARD CONTAINER UPDATES:
-            - Changed bg-[#0a0a0e] to bg-black/40 + backdrop-blur-2xl (Glass Effect)
-            - Replaced generic border with step.premiumStyle for colored borders & glowing halos
+            - Removed backdrop-blur-2xl (Heavy Performance Cost)
+            - Changed to bg-[#020617]/95 (Deep Premium Black)
         */}
-        <div className={`relative overflow-hidden rounded-[2rem] bg-black/40 backdrop-blur-2xl border p-8 flex flex-col gap-6 transition-all duration-500 ${step.premiumStyle} group min-h-[500px] justify-between z-10`}>
+        <div className={`relative overflow-hidden rounded-[2rem] bg-[#020617]/95 border p-8 flex flex-col gap-6 transition-all duration-500 ${step.premiumStyle} group min-h-[500px] justify-between z-10`}>
             
             {/* Dynamic Hover Gradient */}
             <div className={`absolute inset-0 bg-gradient-to-br ${step.gradient} to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-700 pointer-events-none`} />
