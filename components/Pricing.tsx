@@ -1,3 +1,4 @@
+
 import React from 'react';
 import { motion } from 'framer-motion';
 import { ArrowLeft, Sparkles } from 'lucide-react';
@@ -5,19 +6,15 @@ import { ArrowLeft, Sparkles } from 'lucide-react';
 export const Pricing: React.FC = () => {
   return (
     <section id="contact" className="pt-8 pb-24 bg-slate-950 relative overflow-hidden flex items-center justify-center">
-      {/* Background Elements - Static & GPU optimized */}
-      <div className="absolute inset-0 pointer-events-none">
-          <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[500px] h-[500px] bg-green-500/5 rounded-full blur-[80px] transform-gpu" />
-          <div className="absolute inset-0 bg-[linear-gradient(rgba(255,255,255,0.02)_1px,transparent_1px),linear-gradient(90deg,rgba(255,255,255,0.02)_1px,transparent_1px)] bg-[size:60px_60px] [mask-image:radial-gradient(ellipse_at_center,black,transparent_70%)]" />
-      </div>
-
+      {/* SOLID BACKGROUND ONLY */}
+      
       <div className="w-full max-w-4xl px-6 relative z-10 text-center">
         <motion.div
           initial={{ opacity: 0, y: 30 }}
           whileInView={{ opacity: 1, y: 0 }}
           viewport={{ once: true }}
           transition={{ duration: 0.6 }}
-          className="relative bg-slate-900/50 backdrop-blur-md border border-white/5 rounded-[2.5rem] p-10 md:p-16 overflow-hidden"
+          className="relative bg-slate-900 border border-white/10 rounded-[2.5rem] p-10 md:p-16 overflow-hidden"
         >
            {/* Static Inner Glow */}
            <div className="absolute top-0 left-0 w-full h-px bg-gradient-to-r from-transparent via-green-500/30 to-transparent" />
@@ -43,7 +40,6 @@ export const Pricing: React.FC = () => {
              rel="noopener noreferrer"
              className="group relative inline-flex items-center gap-4 px-10 py-5 bg-gradient-to-r from-[#25D366] to-[#128C7E] text-white rounded-full text-xl font-black tracking-wide shadow-[0_0_20px_rgba(37,211,102,0.4)] hover:shadow-[0_0_40px_rgba(37,211,102,0.6)] transition-all duration-300 transform hover:scale-105 overflow-hidden border border-white/10"
            >
-             {/* Simple Shine Animation */}
              <div className="absolute inset-0 bg-white/20 translate-x-[-100%] group-hover:translate-x-[100%] transition-transform duration-700 ease-in-out skew-x-12 will-change-transform" />
              
              <span className="relative z-10">בוא נדבר על העסק שלך</span>

@@ -1,3 +1,4 @@
+
 import React from 'react';
 import { motion } from 'framer-motion';
 
@@ -31,7 +32,7 @@ export const UXShowcase: React.FC = () => {
           </div>
 
           <div className="flex-1 relative h-[500px] w-full flex items-center justify-center">
-             {/* Abstract layered cards */}
+             {/* Abstract layered cards - Removed backdrop-blur */}
              {[0, 1, 2].map((i) => (
                <motion.div
                 key={i}
@@ -50,7 +51,7 @@ export const UXShowcase: React.FC = () => {
                   rotateX: 0, 
                   boxShadow: "0 20px 50px rgba(6,182,212,0.3)" 
                 }}
-                className="absolute w-72 md:w-96 h-64 bg-slate-900/80 backdrop-blur-xl border border-white/10 rounded-2xl p-6 flex flex-col justify-between"
+                className="absolute w-72 md:w-96 h-64 bg-slate-900 border border-white/10 rounded-2xl p-6 flex flex-col justify-between"
                 style={{ zIndex: 10 - i }}
                >
                  <div className="flex justify-between items-center">

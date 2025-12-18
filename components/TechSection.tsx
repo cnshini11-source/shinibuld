@@ -1,174 +1,123 @@
-import React, { useState, useEffect } from 'react';
-import { motion, AnimatePresence } from 'framer-motion';
-import { Brain, Target, Zap, MousePointer2, User, Activity } from 'lucide-react';
 
-// Simulated events for the AI visualization
-const AI_EVENTS = [
-  { id: 1, text: "זיהוי תנועת עכבר", icon: MousePointer2, color: "text-blue-400" },
-  { id: 2, text: "ניתוח דפוס גלילה", icon: Brain, color: "text-purple-400" },
-  { id: 3, text: "זיהוי היסוס לקוח", icon: User, color: "text-yellow-400" },
-  { id: 4, text: "הפעלת טריגר מכירה", icon: Zap, color: "text-cyan-400" },
-  { id: 5, text: "המרת ליד מוצלחת!", icon: Target, color: "text-green-400" },
-];
+import React, { memo } from 'react';
+import { motion, useScroll, useTransform } from 'framer-motion';
+import { Brain, Target, Activity, ShieldCheck, Cpu, Sparkles } from 'lucide-react';
 
-export const TechSection: React.FC = () => {
-  const [activeEventIndex, setActiveEventIndex] = useState(0);
-
-  // Cycle through events to simulate "Processing"
-  useEffect(() => {
-    const interval = setInterval(() => {
-      setActiveEventIndex((prev) => (prev + 1) % AI_EVENTS.length);
-    }, 2000);
-    return () => clearInterval(interval);
-  }, []);
+export const TechSection: React.FC = memo(() => {
+  const { scrollYProgress } = useScroll();
+  const opacity = useTransform(scrollYProgress, [0.1, 0.2, 0.8, 0.9], [0, 1, 1, 0]);
+  const scale = useTransform(scrollYProgress, [0.1, 0.2], [0.95, 1]);
+  const coreRotate = useTransform(scrollYProgress, [0, 1], [0, 360]);
 
   return (
-    <section id="tech" className="py-24 bg-slate-950 relative overflow-hidden">
-        {/* Lightweight Background Overlay */}
-        <div className="absolute inset-0 bg-[radial-gradient(circle_at_30%_50%,rgba(6,182,212,0.05),transparent_50%)] pointer-events-none" />
-        
-        <div className="max-w-7xl mx-auto px-6 relative z-10">
-            <div className="grid grid-cols-1 lg:grid-cols-2 gap-12 lg:gap-20 items-center">
-                
-                {/* Left Side: Copy - Compact & Classic Refinement */}
-                <motion.div 
-                  initial={{ opacity: 0, x: 20 }}
-                  whileInView={{ opacity: 1, x: 0 }}
-                  viewport={{ once: true }}
-                  transition={{ duration: 0.6 }}
-                  className="max-w-lg text-right mx-auto lg:mx-0"
-                >
-                   <div className="inline-flex items-center gap-2 px-3 py-1 rounded-full bg-cyan-950/30 border border-cyan-500/20 mb-6">
-                        <span className="relative flex h-2 w-2">
-                          <span className="animate-ping absolute inline-flex h-full w-full rounded-full bg-cyan-400 opacity-75"></span>
-                          <span className="relative inline-flex rounded-full h-2 w-2 bg-cyan-500"></span>
-                        </span>
-                        <span className="text-cyan-400 text-[10px] font-bold tracking-[0.2em] uppercase">AI Core Active</span>
-                   </div>
+    <section id="tech" className="relative flex items-center justify-center overflow-hidden pt-2 pb-16 selection:bg-[#3FB6B1]/30" style={{ backgroundColor: '#010206' }}>
+      
+      {/* SOLID BACKGROUND ONLY */}
 
-                   <h2 className="text-4xl md:text-5xl lg:text-6xl font-black text-white mb-10 tracking-tighter leading-[1.05]">
-                     הלקוחות נכנסים, מסתכלים... <br/>
-                     <span className="text-transparent bg-clip-text bg-gradient-to-r from-red-500 to-orange-500">
-                       ובורחים למתחרים.
-                     </span>
-                   </h2>
-                   
-                   <div className="space-y-8">
-                       <p className="text-lg md:text-xl text-slate-200 leading-relaxed font-light">
-                           היום, לא משנה כמה אתה תותח או שהמוצר שלך טוב בלי נוכחות דיגיטלית חזקה – <strong className="text-white font-black border-b border-cyan-500/50 pb-0.5">אתה פשוט לא קיים.</strong>
-                       </p>
-                       
-                       <p className="text-base md:text-lg text-slate-400 leading-relaxed max-w-[90%]">
-                           הלקוחות שלך נמצאים במסך, ואם אתה לא שם לתפוס אותם - הם הולכים למתחרה שלך. זה לא מספיק רק "שיהיה אתר יפה", <strong className="text-slate-200 font-bold">חייבים מכונה שיודעת להפוך גולשים לכסף.</strong>
-                       </p>
+      {/* THE CENTRAL AI CORE */}
+      <div className="absolute inset-0 flex items-center justify-center z-10 pointer-events-none overflow-visible">
+        <motion.div 
+          style={{ rotate: coreRotate, scale }}
+          className="relative w-[500px] h-[500px] md:w-[800px] md:h-[800px] will-change-transform"
+        >
+          {/* Sharp rings, no blurs */}
+          <div className="absolute inset-0 border border-white/10 rounded-full border-dashed" />
+          <div className="absolute inset-10 border border-[#3FB6B1]/20 rounded-full" />
+          <div className="absolute inset-20 border border-white/10 rounded-full border-dotted" />
+          
+          {/* Orbital Nodes */}
+          {[...Array(6)].map((_, i) => (
+            <motion.div
+              key={i}
+              className="absolute w-2 h-2 bg-[#3FB6B1] rounded-none rotate-45" // Square nodes
+              style={{ 
+                top: `${50 + 48 * Math.cos(i * (Math.PI / 3))}%`,
+                left: `${50 + 48 * Math.sin(i * (Math.PI / 3))}%`
+              }}
+            />
+          ))}
+        </motion.div>
+      </div>
 
-                       <div className="pt-6 border-r-2 border-cyan-500/30 pr-6 bg-white/5 rounded-l-2xl p-6 shadow-inner">
-                            <p className="text-lg text-slate-200 font-medium leading-relaxed">
-                                אני לא בונה אתר או דף. <br />
-                                אני בונה לך <strong className="text-cyan-400 font-black">סוכן מכירות דיגיטלי</strong> שעובד בשבילך 24/7. המערכת מזהה בדיוק מתי הלקוח מהסס ומגישה לו את המסר המדויק שיגרום לו להשאיר פרטים עכשיו.
-                            </p>
-                       </div>
-                   </div>
-                </motion.div>
+      {/* CONTENT AREA */}
+      <motion.div 
+        style={{ opacity, scale }}
+        className="relative z-20 w-full max-w-5xl px-6 flex flex-col items-center text-center will-change-transform"
+      >
+        <div className="mb-6">
+          <motion.div
+            initial={{ opacity: 0, scale: 0.9 }}
+            whileInView={{ opacity: 1, scale: 1 }}
+            className="flex items-center justify-center gap-3 mb-4"
+          >
+            <div className="h-px w-12 bg-cyan-500" />
+            <Cpu size={20} className="text-[#3FB6B1]" />
+            <div className="h-px w-12 bg-cyan-500" />
+          </motion.div>
 
-                {/* Right Side: The Visual AI Engine */}
-                <motion.div 
-                   className="relative w-full aspect-square max-w-[400px] mx-auto flex items-center justify-center pt-6"
-                   initial={{ opacity: 0, scale: 0.9 }}
-                   whileInView={{ opacity: 1, scale: 1 }}
-                   viewport={{ once: true }}
-                >
-                    {/* HUD LABEL */}
-                    <div className="absolute top-0 left-1/2 -translate-x-1/2 z-30 flex flex-col items-center">
-                        <div className="bg-slate-900/90 backdrop-blur-md border border-cyan-500/30 rounded-lg px-5 py-3 shadow-[0_0_20px_rgba(6,182,212,0.15)] flex flex-col items-center gap-1 min-w-[200px]">
-                            <div className="flex items-center gap-2 mb-1">
-                                <div className="relative w-2 h-2">
-                                    <div className="absolute inset-0 bg-red-500 rounded-full animate-ping opacity-75"></div>
-                                    <div className="relative w-2 h-2 bg-red-500 rounded-full"></div>
-                                </div>
-                                <span className="text-cyan-100 font-bold text-sm tracking-wide">
-                                    סורק AI מותקן באתר שלך
-                                </span>
-                            </div>
-                            <div className="w-full h-px bg-gradient-to-r from-transparent via-cyan-500/20 to-transparent my-0.5" />
-                            <div className="flex items-center gap-1.5 text-[10px] text-cyan-400/80 font-mono uppercase tracking-wider">
-                                <Activity className="w-3 h-3" />
-                                <span>ניתוח התנהגות בזמן אמת</span>
-                            </div>
-                        </div>
-                        <div className="w-px h-8 bg-gradient-to-b from-cyan-500/50 to-transparent relative">
-                            <motion.div 
-                                animate={{ y: [0, 32], opacity: [0, 1, 0] }}
-                                transition={{ duration: 1.5, repeat: Infinity, ease: "linear" }}
-                                className="absolute top-0 left-1/2 -translate-x-1/2 w-1.5 h-1.5 bg-cyan-400 rounded-full shadow-[0_0_5px_rgba(6,182,212,0.8)]"
-                            />
-                        </div>
-                    </div>
-
-                    {/* Radar Grid */}
-                    <div className="absolute inset-0 rounded-full border border-white/5" />
-                    <div className="absolute inset-[15%] rounded-full border border-white/5" />
-                    <div className="absolute inset-[30%] rounded-full border border-white/5" />
-                    <div className="absolute inset-0 flex items-center justify-center">
-                        <div className="w-full h-px bg-white/5" />
-                        <div className="h-full w-px bg-white/5 absolute" />
-                    </div>
-
-                    {/* Scanner */}
-                    <div className="absolute inset-0 rounded-full overflow-hidden animate-[spin_4s_linear_infinite] opacity-30">
-                         <div className="w-full h-full bg-[conic-gradient(from_0deg,transparent_0deg,transparent_270deg,rgba(6,182,212,0.4)_360deg)]" />
-                    </div>
-
-                    {/* Central Core */}
-                    <div className="absolute inset-0 flex items-center justify-center">
-                        <div className="w-24 h-24 bg-slate-900 border border-cyan-500/30 rounded-full flex items-center justify-center relative shadow-[0_0_30px_rgba(6,182,212,0.2)] z-10">
-                            <Brain className="w-10 h-10 text-cyan-400" />
-                            <div className="absolute inset-0 rounded-full border border-cyan-500/20 animate-ping opacity-20" />
-                        </div>
-                    </div>
-
-                    {/* Nodes */}
-                    <div className="absolute top-[20%] right-[20%]">
-                        <div className="w-3 h-3 bg-red-500 rounded-full animate-pulse shadow-[0_0_10px_rgba(239,68,68,0.5)]" />
-                    </div>
-
-                    <div className="absolute bottom-[25%] left-[25%]">
-                        <div className="w-3 h-3 bg-green-500 rounded-full shadow-[0_0_15px_rgba(34,197,94,0.8)] animate-pulse" />
-                        <div className="absolute -top-6 -left-2 text-[10px] text-green-400 font-mono bg-green-900/30 px-1 rounded border border-green-500/30">LEAD</div>
-                    </div>
-
-                    {/* Event Card */}
-                    <div className="absolute bottom-8 right-0 left-0 flex justify-center z-20">
-                        <AnimatePresence mode='wait'>
-                            <motion.div 
-                                key={activeEventIndex}
-                                initial={{ opacity: 0, y: 10 }}
-                                animate={{ opacity: 1, y: 0 }}
-                                exit={{ opacity: 0, y: -10 }}
-                                className="bg-slate-900/90 backdrop-blur-md border border-white/10 px-4 py-2 rounded-lg flex items-center gap-3 shadow-xl"
-                            >
-                                {React.createElement(AI_EVENTS[activeEventIndex].icon, { 
-                                    className: `w-4 h-4 ${AI_EVENTS[activeEventIndex].color}` 
-                                })}
-                                <span className="text-sm font-mono text-slate-200">
-                                    {AI_EVENTS[activeEventIndex].text}
-                                </span>
-                                <div className="w-1.5 h-1.5 bg-green-500 rounded-full animate-pulse" />
-                            </motion.div>
-                        </AnimatePresence>
-                    </div>
-
-                </motion.div>
-
-            </div>
+          <h2 className="text-3xl md:text-6xl font-black mb-4 leading-[1.1] tracking-tighter text-white">
+            הגולשים נכנסים. <br className="hidden md:block" /> 
+            הגיע הזמן שהם <span className="text-[#3FB6B1] underline decoration-1 underline-offset-4">יהיו לקוחות</span>.
+          </h2>
+          
+          <p className="text-lg md:text-xl font-bold tracking-widest uppercase text-[#3FB6B1] mb-1 font-mono">
+            "SYSTEM ALERT: Potential Client Loss Detected"
+          </p>
         </div>
-        
-        <style>{`
-            @keyframes spin {
-                from { transform: rotate(0deg); }
-                to { transform: rotate(360deg); }
-            }
-        `}</style>
+
+        <div className="max-w-2xl space-y-5 mb-8 bg-slate-900/80 border border-cyan-500/20 p-6 rounded-none">
+          <p className="text-lg md:text-2xl text-slate-100 font-light leading-relaxed">
+            המערכת שלנו היא לא סתם עיצוב יפה. זהו <span className="text-cyan-400 font-bold">מוח דיגיטלי</span> שעובד עבורך 24/7.
+            היא מנתחת את מהירות הגלילה, תנועות העכבר וזמן השהייה כדי להבין בדיוק מתי הגולש עומד לנטוש.
+          </p>
+          
+          <p className="text-base md:text-lg text-slate-400 font-light leading-relaxed">
+            ברגע הזיהוי, ה-AI מקפיץ הצעה מותאמת אישית שפותרת את חסמי הקנייה של הגולש הספציפי.
+          </p>
+        </div>
+
+        <motion.div
+          whileHover={{ scale: 1.05 }}
+          whileTap={{ scale: 0.95 }}
+          className="w-full max-w-sm mb-10"
+        >
+          <a 
+            href="https://wa.me/972538227778"
+            target="_blank"
+            rel="noopener noreferrer"
+            className="group relative flex items-center justify-center w-full py-5 rounded-none skew-x-[-10deg] text-black font-black text-xl tracking-tighter transition-all duration-500 shadow-[0_0_0_1px_rgba(63,182,177,0.5)] hover:bg-[#3FB6B1] bg-[#3FB6B1]"
+          >
+            <div className="absolute inset-0 bg-white/30 translate-x-[-100%] group-hover:translate-x-[100%] transition-transform duration-1000 ease-in-out" />
+            <span className="relative z-10 flex items-center gap-4 skew-x-[10deg]">
+              בדיקה חכמה לאתר שלי
+              <Target size={24} className="group-hover:rotate-12 transition-all duration-300" />
+            </span>
+          </a>
+        </motion.div>
+
+        <div className="flex flex-wrap justify-center gap-5">
+           {[
+             { icon: Activity, text: "זיהוי כוונות" },
+             { icon: ShieldCheck, text: "תשתית מאובטחת" },
+             { icon: Cpu, text: "אופטימיזציה" }
+           ].map((item, i) => (
+             <motion.div 
+               key={i} 
+               whileHover={{ y: -3 }}
+               className="flex items-center gap-2 border border-white/10 px-3 py-1 bg-slate-900"
+             >
+                <item.icon size={14} className="text-[#3FB6B1]" />
+                <span className="text-[10px] font-black text-slate-300 uppercase tracking-widest">{item.text}</span>
+             </motion.div>
+           ))}
+        </div>
+      </motion.div>
+      
+      {/* Background Graphic */}
+      <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 z-[5] opacity-5">
+         <Brain size={600} strokeWidth={0.5} className="text-[#3FB6B1]" />
+      </div>
+
     </section>
   );
-};
+});

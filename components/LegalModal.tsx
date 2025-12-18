@@ -105,7 +105,7 @@ export const LegalModal: React.FC<LegalModalProps> = ({ isOpen, type, onClose })
         animate={{ opacity: 1 }}
         exit={{ opacity: 0 }}
         onClick={onClose}
-        className="fixed inset-0 z-[100] bg-black/80 backdrop-blur-md flex items-center justify-center p-4 sm:p-6"
+        className="fixed inset-0 z-[100] bg-black/80 flex items-center justify-center p-4 sm:p-6"
       >
         <motion.div
           initial={{ scale: 0.9, opacity: 0, y: 20 }}
@@ -115,7 +115,7 @@ export const LegalModal: React.FC<LegalModalProps> = ({ isOpen, type, onClose })
           className="bg-slate-900 border border-white/10 w-full max-w-2xl rounded-2xl shadow-2xl overflow-hidden flex flex-col max-h-[85vh]"
         >
           {/* Header */}
-          <div className="p-6 border-b border-white/5 flex flex-row-reverse justify-between items-center bg-slate-900/50">
+          <div className="p-6 border-b border-white/5 flex flex-row-reverse justify-between items-center bg-slate-900">
             <div className="flex flex-row-reverse items-center gap-3">
               <div className="p-2 bg-cyan-500/10 rounded-lg">
                  <Icon className="text-cyan-400 w-5 h-5" />
@@ -137,7 +137,7 @@ export const LegalModal: React.FC<LegalModalProps> = ({ isOpen, type, onClose })
           </div>
 
           {/* Footer */}
-          <div className="p-4 border-t border-white/5 bg-slate-950/50 flex justify-start">
+          <div className="p-4 border-t border-white/5 bg-slate-950 flex justify-start">
             <button 
               onClick={onClose}
               className="px-6 py-2 bg-cyan-500 hover:bg-cyan-400 text-black rounded-lg text-sm font-bold transition-all hover:scale-[1.02]"

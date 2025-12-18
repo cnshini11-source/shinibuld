@@ -1,3 +1,4 @@
+
 import React, { useState, useEffect } from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
 import { Accessibility, Type, Sun, Link as LinkIcon, RotateCcw, EyeOff, X, Zap, MousePointer2, AlignJustify, Contrast } from 'lucide-react';
@@ -14,7 +15,6 @@ export const AccessibilityMenu: React.FC = () => {
   const [stopAnimations, setStopAnimations] = useState(false);
   const [bigCursor, setBigCursor] = useState(false);
 
-  // Handle CSS Variables / Body Classes
   useEffect(() => {
     document.documentElement.style.fontSize = `${fontSize}%`;
     document.body.classList.toggle('acc-grayscale', grayscale);
@@ -27,7 +27,6 @@ export const AccessibilityMenu: React.FC = () => {
     document.body.classList.toggle('acc-big-cursor', bigCursor);
   }, [fontSize, grayscale, highContrast, invertColors, highlightLinks, hideImages, readableFont, stopAnimations, bigCursor]);
 
-  // Inject global styles
   useEffect(() => {
     const styleId = 'accessibility-styles';
     if (!document.getElementById(styleId)) {
@@ -37,7 +36,7 @@ export const AccessibilityMenu: React.FC = () => {
         .acc-grayscale { filter: grayscale(100%); }
         .acc-high-contrast { filter: contrast(150%); }
         .acc-invert { filter: invert(100%); background-color: white; }
-        .acc-invert img, .acc-invert video { filter: invert(100%); } /* Keep media normal */
+        .acc-invert img, .acc-invert video { filter: invert(100%); }
         
         .acc-highlight-links a, .acc-highlight-links button {
             text-decoration: underline !important;
@@ -64,7 +63,7 @@ export const AccessibilityMenu: React.FC = () => {
         }
 
         .acc-big-cursor, .acc-big-cursor * {
-            cursor: default !important; /* Simplified fallback */
+            cursor: default !important;
         }
       `;
       document.head.appendChild(style);
@@ -105,10 +104,8 @@ export const AccessibilityMenu: React.FC = () => {
             initial={{ opacity: 0, y: 10, scale: 0.95, originY: 1, originX: 0 }}
             animate={{ opacity: 1, y: 0, scale: 1 }}
             exit={{ opacity: 0, y: 10, scale: 0.95 }}
-            // Absolute positioning ensures the button doesn't move when menu opens
-            className="absolute bottom-14 left-0 bg-slate-900/95 backdrop-blur-xl border border-white/10 rounded-xl shadow-2xl w-[320px] origin-bottom-left overflow-hidden"
+            className="absolute bottom-14 left-0 bg-slate-900 border border-white/10 rounded-xl shadow-2xl w-[320px] origin-bottom-left overflow-hidden"
           >
-            {/* Header */}
             <div className="flex justify-between items-center p-3 bg-white/5 border-b border-white/5">
                 <span className="font-bold text-white text-sm">כלי נגישות</span>
                 <div className="flex gap-2">
@@ -122,7 +119,6 @@ export const AccessibilityMenu: React.FC = () => {
             </div>
             
             <div className="p-4 space-y-4">
-                {/* Font Size Control */}
                 <div className="bg-white/5 rounded-lg p-2 flex justify-between items-center">
                     <button 
                         onClick={() => setFontSize(s => Math.max(s - 10, 80))}
@@ -142,7 +138,6 @@ export const AccessibilityMenu: React.FC = () => {
                     </button>
                 </div>
 
-                {/* Grid Options */}
                 <div className="grid grid-cols-3 gap-3">
                     <ToggleButton active={grayscale} onClick={() => setGrayscale(!grayscale)} icon={Sun} label="גווני אפור" />
                     <ToggleButton active={highContrast} onClick={() => setHighContrast(!highContrast)} icon={Contrast} label="ניגודיות" />

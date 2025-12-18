@@ -1,3 +1,4 @@
+
 import React, { Suspense, lazy } from 'react';
 
 // --- Critical Components (Eager Load) ---
@@ -5,6 +6,7 @@ import { Header } from './components/Header';
 import { Hero } from './components/Hero'; 
 import { ScrollProgress } from './components/ScrollProgress';
 import { WhatsAppFloat } from './components/WhatsAppFloat';
+import { CinematicOverlay } from './components/CinematicOverlay';
 
 // --- Helper for Named Exports Lazy Loading ---
 const lazyLoad = (importFunc: Promise<any>, componentName: string) => {
@@ -19,47 +21,36 @@ const ProcessSection = lazyLoad(import('./components/ProcessSection'), 'ProcessS
 const Footer = lazyLoad(import('./components/Footer'), 'Footer');
 const AccessibilityMenu = lazyLoad(import('./components/AccessibilityMenu'), 'AccessibilityMenu');
 
-const SectionLoader = () => (
-  <div className="w-full h-[300px] flex items-center justify-center bg-[#010206] opacity-50">
-    <div className="w-px h-10 bg-gradient-to-b from-transparent via-cyan-500/50 to-transparent" />
-  </div>
-);
-
 function App() {
   return (
     <div className="bg-[#010206] min-h-screen text-white selection:bg-cyan-500/30 overflow-hidden relative">
       <ScrollProgress />
       <Header />
+      <CinematicOverlay />
       
       <main>
         <Hero />
         
-        <Suspense fallback={<SectionLoader />}>
-            <div className="lazy-section">
-                <TechSection />
-            </div>
+        <Suspense fallback={<div className="h-96" />}>
+          <TechSection />
         </Suspense>
 
-        <Suspense fallback={<SectionLoader />}>
-             <div className="lazy-section">
-                <WhyChooseMe />
-             </div>
+        <Suspense fallback={<div className="h-96" />}>
+          <WhyChooseMe />
         </Suspense>
 
-        <Suspense fallback={<SectionLoader />}>
-             <div className="lazy-section">
-                <PortfolioCarousel />
-             </div>
+        <Suspense fallback={<div className="h-96" />}>
+          <PortfolioCarousel />
         </Suspense>
 
-        <Suspense fallback={<SectionLoader />}>
-             <div id="process" className="lazy-section scroll-mt-32">
-                <ProcessSection />
-             </div>
+        <Suspense fallback={<div className="h-96" />}>
+          <div id="process" className="scroll-mt-32">
+            <ProcessSection />
+          </div>
         </Suspense>
       </main>
       
-      <Suspense fallback={<div className="h-20 bg-slate-950" />}>
+      <Suspense fallback={<div className="h-40 bg-slate-950" />}>
          <Footer />
       </Suspense>
       

@@ -23,8 +23,8 @@ export const Header: React.FC = () => {
     <header
       className={`fixed top-0 left-0 right-0 z-50 transition-all duration-700 ${
         isScrolled 
-            ? "bg-slate-950/80 backdrop-blur-xl border-b border-white/5 shadow-2xl py-3" 
-            : "bg-transparent border-transparent backdrop-blur-none py-6"
+            ? "bg-slate-950 border-b border-white/5 shadow-2xl py-3" 
+            : "bg-transparent border-transparent py-6"
       }`}
     >
       <div className="max-w-7xl mx-auto px-6 flex items-center justify-center relative z-10 w-full">
@@ -36,7 +36,8 @@ export const Header: React.FC = () => {
           className="flex items-center gap-4 cursor-pointer group select-none relative"
         >
           <div className="relative flex items-center justify-center">
-            <div className="absolute inset-0 bg-cyan-400/10 blur-2xl rounded-full opacity-0 group-hover:opacity-100 transition-opacity duration-700" />
+            {/* Removed blur-2xl */}
+            <div className="absolute inset-0 bg-cyan-400/10 rounded-full opacity-0 group-hover:opacity-100 transition-opacity duration-700" />
             <Rocket className="text-cyan-400 w-10 h-10 md:w-12 md:h-12 relative z-10 transform group-hover:-rotate-45 group-active:scale-90 transition-all duration-700 ease-[0.16,1,0.3,1]" />
           </div>
 

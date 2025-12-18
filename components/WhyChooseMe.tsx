@@ -27,15 +27,6 @@ const reasons = [
 ];
 
 export const WhyChooseMe: React.FC = () => {
-  const handleMouseMove = (e: React.MouseEvent<HTMLDivElement>) => {
-    const { currentTarget, clientX, clientY } = e;
-    const { left, top } = currentTarget.getBoundingClientRect();
-    const x = clientX - left;
-    const y = clientY - top;
-    currentTarget.style.setProperty("--mouse-x", `${x}px`);
-    currentTarget.style.setProperty("--mouse-y", `${y}px`);
-  };
-
   const containerVariants = {
     hidden: { opacity: 0 },
     visible: {
@@ -48,29 +39,18 @@ export const WhyChooseMe: React.FC = () => {
   };
 
   const itemVariants = {
-    hidden: { opacity: 0, y: 30, filter: 'blur(10px)' },
+    hidden: { opacity: 0, y: 30 }, 
     visible: { 
       opacity: 1, 
       y: 0, 
-      filter: 'blur(0px)',
       transition: { duration: 0.8, ease: [0.16, 1, 0.3, 1] }
     }
   };
 
   return (
-    <section id="why-us" className="py-24 md:py-32 relative overflow-hidden bg-gradient-to-b from-[#010206] via-[#0a0f1f] to-[#010206]">
-      {/* Premium Depth Layers - Local to this section only */}
-      <div className="absolute inset-0 z-0 pointer-events-none">
-        {/* Subtle Cyber Grid */}
-        <div className="absolute inset-0 bg-[linear-gradient(to_right,#ffffff03_1px,transparent_1px),linear-gradient(to_bottom,#ffffff03_1px,transparent_1px)] bg-[size:40px_40px] [mask-image:radial-gradient(ellipse_80%_80%_at_50%_50%,#000_30%,transparent_100%)]" />
-        
-        {/* Soft Radial Glow (Blue/Cyan) */}
-        <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-full max-w-[1000px] aspect-square bg-blue-500/5 rounded-full blur-[140px] mix-blend-screen opacity-60" />
-        
-        {/* Localized Grain Effect */}
-        <div className="absolute inset-0 opacity-[0.02] mix-blend-overlay" style={{ backgroundImage: `url("data:image/svg+xml,%3Csvg viewBox='0 0 200 200' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='noiseFilter'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.65' numOctaves='3' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23noiseFilter)'/%3E%3C/svg%3E")` }} />
-      </div>
-
+    <section id="why-us" className="py-24 md:py-32 relative overflow-hidden bg-[#010206]">
+      {/* SOLID BACKGROUND ONLY - NO DECORATIONS */}
+      
       <div className="max-w-7xl mx-auto px-6 relative z-10">
         <div className="flex flex-col lg:flex-row gap-12 lg:gap-24">
           
@@ -83,17 +63,14 @@ export const WhyChooseMe: React.FC = () => {
                 viewport={{ once: true }}
                 transition={{ duration: 0.8 }}
               >
-                <div className="w-14 h-1.5 bg-cyan-500 mb-8 rounded-full shadow-[0_0_20px_rgba(6,182,212,0.5)] mx-auto lg:mx-0 lg:mr-0" />
+                <div className="w-14 h-1.5 bg-cyan-500 mb-8 rounded-none shadow-none mx-auto lg:mx-0 lg:mr-0" />
                 <h2 className="text-4xl md:text-6xl font-black text-white mb-8 leading-[1.1] tracking-tighter">
                   למה דווקא
                   <br />
-                  <span className="relative inline-block text-transparent bg-clip-text bg-gradient-to-l from-cyan-400 via-blue-400 to-blue-500">
+                  <span className="relative inline-block text-cyan-400">
                     LEVI?
-                    <motion.span 
-                      animate={{ opacity: [0.2, 0.4, 0.2] }}
-                      transition={{ duration: 5, repeat: Infinity }}
-                      className="absolute -inset-4 blur-3xl bg-cyan-500/10 -z-10 rounded-full"
-                    />
+                    {/* Tech underline */}
+                    <div className="absolute bottom-0 left-0 w-full h-[2px] bg-cyan-500/50" />
                   </span>
                 </h2>
                 <p className="text-slate-400 text-lg md:text-xl leading-relaxed font-light max-w-sm mx-auto lg:mx-0 lg:mr-0">
@@ -115,28 +92,23 @@ export const WhyChooseMe: React.FC = () => {
               <motion.div
                 key={index}
                 variants={itemVariants}
-                onMouseMove={handleMouseMove}
-                className="group relative p-6 md:p-10 rounded-3xl bg-white/[0.02] backdrop-blur-md border border-white/5 overflow-hidden transition-all duration-500 hover:border-cyan-500/30 hover:bg-white/[0.04] hover:shadow-[0_20px_50px_rgba(0,0,0,0.3)]"
+                className="group relative p-6 md:p-10 bg-slate-900 border border-white/10 hover:border-cyan-500/50 transition-all duration-300"
               >
-                {/* Micro-interaction: Spotlight */}
-                <div 
-                  className="pointer-events-none absolute -inset-px opacity-0 group-hover:opacity-100 transition-opacity duration-500"
-                  style={{
-                    background: `radial-gradient(500px circle at var(--mouse-x) var(--mouse-y), rgba(6, 182, 212, 0.07), transparent 40%)`
-                  }}
-                />
+                {/* Tech Corner Accents */}
+                <div className="absolute top-0 right-0 w-3 h-3 border-t-2 border-r-2 border-cyan-500/0 group-hover:border-cyan-500 transition-all" />
+                <div className="absolute bottom-0 left-0 w-3 h-3 border-b-2 border-l-2 border-cyan-500/0 group-hover:border-cyan-500 transition-all" />
 
                 <div className="relative z-10 flex flex-col sm:flex-row gap-6 md:gap-10 items-start">
-                  {/* Even More Reduced Icon Size as requested ("עוד קצת") */}
                   <motion.div 
-                    whileHover={{ scale: 1.1, rotate: 5 }}
-                    className="w-8 h-8 md:w-10 md:h-10 bg-slate-950 rounded-xl flex items-center justify-center flex-shrink-0 border border-white/10 group-hover:border-cyan-500/40 group-hover:shadow-[0_0_30px_rgba(6,182,212,0.2)] transition-all duration-500"
+                    whileHover={{ scale: 1.1, rotate: 90 }} // Mechanical rotation
+                    transition={{ type: "spring", stiffness: 200 }}
+                    className="w-8 h-8 md:w-10 md:h-10 bg-slate-950 flex items-center justify-center flex-shrink-0 border border-cyan-500/20 group-hover:border-cyan-500 transition-all duration-500"
                   >
-                    <reason.icon className="w-4 h-4 md:w-5 md:h-5 text-cyan-400 group-hover:text-cyan-300 transition-colors" />
+                    <reason.icon className="w-4 h-4 md:w-5 md:h-5 text-cyan-400" />
                   </motion.div>
                   
                   <div className="flex-1 text-right">
-                    <h3 className="text-2xl font-black text-white mb-3 group-hover:text-cyan-50 transition-colors tracking-tight">
+                    <h3 className="text-2xl font-black text-white mb-3 group-hover:text-cyan-400 transition-colors tracking-tight">
                       {reason.title}
                     </h3>
                     <p className="text-slate-400 leading-relaxed text-base md:text-lg font-light group-hover:text-slate-300 transition-colors">
