@@ -1,3 +1,4 @@
+
 import React, { useEffect, useState } from 'react';
 import { motion } from 'framer-motion';
 import { Rocket } from 'lucide-react';
@@ -6,26 +7,26 @@ export const SplashScreen: React.FC<{ onComplete: () => void }> = ({ onComplete 
   const [progress, setProgress] = useState(0);
 
   useEffect(() => {
-    // Simulated loading progress
+    // Super fast loading progress
     const timer = setInterval(() => {
       setProgress((prev) => {
         if (prev >= 100) {
           clearInterval(timer);
           return 100;
         }
-        // Non-linear progress for realism (fast start, slow finish)
-        const diff = Math.random() * 15;
+        // Large increments for speed
+        const diff = Math.random() * 40 + 10;
         return Math.min(prev + diff, 100);
       });
-    }, 120);
+    }, 30); // Very fast interval
 
     return () => clearInterval(timer);
   }, []);
 
   useEffect(() => {
     if (progress === 100) {
-      // Trigger exit slightly after 100%
-      const timeout = setTimeout(onComplete, 600);
+      // Almost immediate exit
+      const timeout = setTimeout(onComplete, 200);
       return () => clearTimeout(timeout);
     }
   }, [progress, onComplete]);
@@ -37,8 +38,8 @@ export const SplashScreen: React.FC<{ onComplete: () => void }> = ({ onComplete 
       exit={{ 
         y: "-100%", 
         transition: { 
-          duration: 0.8, 
-          ease: [0.76, 0, 0.24, 1] // Custom Bezier for "Shutter" effect
+          duration: 0.4, // Fast shutter exit
+          ease: [0.76, 0, 0.24, 1] 
         } 
       }}
     >
@@ -70,7 +71,7 @@ export const SplashScreen: React.FC<{ onComplete: () => void }> = ({ onComplete 
             <motion.div 
                 initial={{ scale: 0.8, opacity: 0 }}
                 animate={{ scale: 1.5, opacity: 0 }}
-                transition={{ duration: 1, repeat: Infinity }}
+                transition={{ duration: 0.5, repeat: Infinity }} // Faster pulse
                 className="absolute inset-0 bg-cyan-500/30 rounded-full blur-xl z-[-1]"
             />
           )}

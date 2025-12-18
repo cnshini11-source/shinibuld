@@ -25,8 +25,8 @@ export const Hero: React.FC = () => {
     visible: {
       opacity: 1,
       transition: {
-        staggerChildren: 0.2,
-        delayChildren: 0.3
+        staggerChildren: 0.1, // Faster stagger
+        delayChildren: 0.1 // Faster delay
       }
     }
   };
@@ -36,7 +36,7 @@ export const Hero: React.FC = () => {
     visible: { 
       opacity: 1, 
       y: 0,
-      transition: { duration: 1, ease: [0.16, 1, 0.3, 1] }
+      transition: { duration: 0.6, ease: [0.16, 1, 0.3, 1] } // Much faster duration
     }
   };
 
@@ -84,7 +84,7 @@ export const Hero: React.FC = () => {
             <motion.div 
                 initial={{ opacity: 0, scale: 0.9 }}
                 animate={{ opacity: 1, scale: 1 }}
-                transition={{ duration: 1.2, ease: "easeOut" }}
+                transition={{ duration: 0.6, ease: "easeOut" }} // Faster main element
                 className="flex relative w-full h-[100px] lg:h-[700px] order-first lg:order-last items-center justify-center will-change-transform mt-0 lg:mt-0"
             >
                 <div className="relative flex flex-col items-center justify-center lg:justify-end h-full w-full">

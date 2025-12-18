@@ -21,7 +21,7 @@ const steps = [
   {
     id: '02',
     title: 'עיצוב וקופירייטינג',
-    desc: 'עיצוב שעוצר את הגלילה וטקסט שנוגע בבטן הרכה. אנחנו בונים שפה ויזואלית ומילולית שמשדרת יוקרה, בונה אמון ומובילה את המשתמש בדיוק לאן שאנחנו רוצים. כל כפתור וכל מילה נבחרים בקפידה כדי למקסם המרות.',
+    desc: 'עיצוב שמושך תשומת לב וטקסט שמוביל לפעולה. אנחנו בונים מסר ברור ומדויק שגורם לגולש להבין מהר, להרגיש בטוח – ולהשאיר פרטים. כל כפתור וכל מילה נועדו להביא תוצאות.',
     icon: PenTool,
     color: 'text-purple-400',
     border: 'group-hover:border-purple-500/50',
@@ -29,7 +29,7 @@ const steps = [
   },
   {
     id: '03',
-    title: 'פיתוח טכנולוגי', // Simplified title
+    title: 'פיתוח טכנולוגי',
     desc: 'פיתוח בקוד נקי ומהיר ללא פשרות. האתר שלך יעבוד חלק כמו אפליקציה, יתאים בצורה מושלמת לכל מסך (רספונסיביות מלאה) וידורג גבוה בגוגל בזכות ביצועים מהירים. אנחנו בונים נכס דיגיטלי יציב ואמין.',
     icon: Zap,
     color: 'text-yellow-400',
@@ -80,8 +80,8 @@ const Card: React.FC<CardProps> = ({
   const y = useTransform(scrollYProgress, [0, 1], [0, -1500]);
 
   return (
-    // Slightly reduced sticky top (top-28) to stack them tighter
-    <div ref={container} className="h-[90vh] flex items-start justify-center sticky top-28">
+    // Reduced height from 90vh to 55vh to increase scroll speed/flow
+    <div ref={container} className="h-[55vh] flex items-start justify-center sticky top-28">
       <motion.div 
         style={{ 
             scale,
