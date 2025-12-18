@@ -8,6 +8,18 @@ export const Hero: React.FC = () => {
   const { scrollY } = useScroll();
   const opacity = useTransform(scrollY, [0, 300], [1, 0]);
   
+  // Rounded data particles
+  const particles = useMemo(() => {
+    return Array.from({ length: 20 }).map((_, i) => ({
+      id: i,
+      top: `${Math.random() * 100}%`,
+      left: `${Math.random() * 100}%`,
+      size: Math.random() > 0.5 ? 4 : 2,
+      duration: Math.random() * 3 + 2,
+      delay: Math.random() * 2,
+    }));
+  }, []);
+
   const containerVariants = {
     hidden: { opacity: 0 },
     visible: {
@@ -29,10 +41,47 @@ export const Hero: React.FC = () => {
   };
 
   return (
-    <div className="relative min-h-screen flex items-center justify-center overflow-hidden bg-[#010206] selection:bg-cyan-500/30">
+    <div className="relative min-h-screen flex items-center justify-center overflow-hidden bg-gradient-to-b from-black via-[#010308] to-[#020617] selection:bg-cyan-500/30">
       
-      {/* SOLID BACKGROUND ONLY - NO DECORATIONS */}
-      
+      {/* --- TECH BACKGROUND --- */}
+      <div className="absolute inset-0 z-0 pointer-events-none perspective-[1000px] overflow-hidden">
+        
+        {/* 1. Base Static Grid */}
+        <div className="absolute inset-0 bg-[linear-gradient(rgba(6,182,212,0.03)_1px,transparent_1px),linear-gradient(90deg,rgba(6,182,212,0.03)_1px,transparent_1px)] bg-[size:50px_50px]" />
+
+        {/* 2. 3D Moving Floor Grid */}
+        <div 
+            className="absolute bottom-[-20%] left-[-50%] right-[-50%] h-[80vh] origin-bottom bg-[linear-gradient(rgba(6,182,212,0.15)_1px,transparent_1px),linear-gradient(90deg,rgba(6,182,212,0.15)_1px,transparent_1px)] bg-[size:60px_60px]"
+            style={{ 
+                transform: 'rotateX(70deg)',
+                maskImage: 'linear-gradient(to top, black 40%, transparent 100%)',
+                WebkitMaskImage: 'linear-gradient(to top, black 40%, transparent 100%)'
+            }} 
+        >
+             <motion.div 
+                animate={{ y: [0, 600] }}
+                transition={{ duration: 4, repeat: Infinity, ease: "linear" }}
+                className="w-full h-[2px] bg-cyan-500/50 shadow-[0_0_10px_rgba(6,182,212,0.8)]"
+             />
+        </div>
+
+        {/* 3. Floating Digital Data Particles (Rounded) */}
+        {particles.map((p) => (
+            <motion.div
+                key={p.id}
+                className="absolute bg-cyan-400/40 rounded-full will-change-[opacity]"
+                style={{
+                    top: p.top,
+                    left: p.left,
+                    width: `${p.size}px`,
+                    height: `${p.size}px`,
+                }}
+                animate={{ opacity: [0, 1, 0], y: [0, -20] }}
+                transition={{ duration: p.duration, repeat: Infinity, delay: p.delay, ease: "linear" }}
+            />
+        ))}
+      </div>
+
       <div className="relative z-10 max-w-7xl mx-auto px-6 w-full pt-20 lg:pt-0">
         <div className="grid grid-cols-1 lg:grid-cols-2 gap-0 lg:gap-20 items-center">
             
@@ -98,7 +147,7 @@ export const Hero: React.FC = () => {
                 animate="visible"
                 className="flex flex-col items-center lg:items-start text-center lg:text-right order-last lg:order-first pb-10 lg:pb-0 relative z-20 -mt-36 lg:mt-0"
             >
-                <motion.div variants={itemVariants} className="mb-4 lg:mb-8 inline-flex items-center gap-2 px-4 py-1.5 rounded-full border border-cyan-500/30 bg-slate-900/50 backdrop-blur-none relative group overflow-hidden">
+                <motion.div variants={itemVariants} className="mb-4 lg:mb-8 inline-flex items-center gap-2 px-4 py-1.5 rounded-full border border-cyan-500/30 bg-black/40 backdrop-blur-none relative group overflow-hidden">
                     <div className="absolute inset-0 bg-gradient-to-r from-transparent via-cyan-500/10 to-transparent -translate-x-full group-hover:translate-x-full transition-transform duration-1000 ease-in-out" />
                     <Sparkles className="w-4 h-4 text-cyan-400 animate-pulse" />
                     <span className="text-cyan-100 text-sm font-bold tracking-wide uppercase">העתיד של האינטרנט כאן</span>
@@ -112,14 +161,14 @@ export const Hero: React.FC = () => {
                     </span>
                 </motion.h1>
 
-                <motion.p variants={itemVariants} className="text-lg md:text-xl text-slate-300 max-w-3xl mb-8 lg:mb-12 leading-relaxed relative z-10 font-light px-4 lg:px-0 rounded-xl border-r-2 border-cyan-500/30 pr-4">
+                <motion.p variants={itemVariants} className="text-lg md:text-xl text-slate-300 max-w-3xl mb-8 lg:mb-12 leading-relaxed relative z-10 font-light px-4 lg:px-0 rounded-3xl border-r-2 border-cyan-500/30 pr-4">
                     דפי נחיתה ואתרי תדמית חכמים עם אנימציות מתקדמות, <span className="font-bold text-white">AI מובנה</span> ומשפך שיווקי מדויק שמייצר לידים ולקוחות באופן אוטומטי – 24/7.
                 </motion.p>
 
                 <motion.div variants={itemVariants} className="flex flex-col sm:flex-row gap-6 relative z-10">
                     <a href="https://wa.me/972538227778" target="_blank" rel="noopener noreferrer">
-                        <Button variant="primary" className="text-xl md:text-2xl px-12 py-6 rounded-none skew-x-[-10deg] h-auto shadow-[0_0_20px_rgba(6,182,212,0.2)] hover:shadow-[0_0_40px_rgba(6,182,212,0.4)] border border-cyan-400/50 group overflow-hidden">
-                            <span className="flex items-center gap-4 relative z-10 skew-x-[10deg]">
+                        <Button variant="primary" className="text-xl md:text-2xl px-12 py-6 rounded-full h-auto shadow-[0_0_20px_rgba(6,182,212,0.2)] hover:shadow-[0_0_40px_rgba(6,182,212,0.4)] border border-cyan-400/50 group overflow-hidden">
+                            <span className="flex items-center gap-4 relative z-10">
                                 בוא נדבר
                                 <span className="relative w-8 h-8 flex items-center justify-center">
                                     <Rocket className="w-8 h-8 absolute inset-0 transform -rotate-45 group-hover:rotate-0 group-hover:scale-110 transition-transform duration-500 ease-in-out text-white fill-white/20" />

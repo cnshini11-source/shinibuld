@@ -56,49 +56,56 @@ export const PortfolioCarousel: React.FC = memo(() => {
       x: relativeIndex * 110 + '%',
       scale: isActive ? 1 : 0.8,
       rotateY: isActive ? 0 : relativeIndex > 0 ? -45 : 45,
-      opacity: isActive ? 1 : 0.4,
-      filter: 'none', 
+      opacity: isActive ? 1 : 0.3, // Darker inactive cards
+      filter: isActive ? 'none' : 'brightness(0.5) blur(2px)', // Focus only on active
       display: Math.abs(relativeIndex) > 1 ? 'none' : 'block'
     };
   };
 
   return (
     <section 
-      className="py-12 relative overflow-hidden" 
-      style={{ backgroundColor: '#010206' }}
+      className="py-24 relative overflow-hidden bg-[#010101]" // Almost pure black
     >
-      {/* SOLID BACKGROUND ONLY */}
+      {/* BACKGROUND LAYERS - Minimalist & Dark */}
+      <div className="absolute inset-0 z-0 pointer-events-none">
+          {/* Pure Dark Base */}
+          <div className="absolute inset-0 bg-[#010101]" />
+          
+          {/* Very Subtle Grid - Barely Visible */}
+          <div className="absolute inset-0 opacity-[0.03] bg-[linear-gradient(rgba(255,255,255,0.08)_1px,transparent_1px),linear-gradient(90deg,rgba(255,255,255,0.08)_1px,transparent_1px)] bg-[size:50px_50px]" />
+      </div>
 
       <div className="w-full max-w-6xl mx-auto px-6 relative z-10 flex flex-col items-center">
         
-        <div className="text-center mb-2 md:mb-12 max-w-xl">
+        <div className="text-center mb-6 md:mb-16 max-w-xl">
             <motion.div 
               initial={{ opacity: 0, y: 10 }}
               whileInView={{ opacity: 1, y: 0 }}
               viewport={{ once: true }}
-              className="flex items-center justify-center gap-2 mb-2 text-cyan-400 font-bold tracking-widest text-xs uppercase"
+              className="flex items-center justify-center gap-2 mb-3 text-cyan-500 font-bold tracking-[0.2em] text-[10px] uppercase font-mono"
             >
-                <Zap size={14} className="fill-cyan-400" />
-                <span>Selected Work</span>
+                <div className="w-2 h-2 bg-cyan-500 rounded-full animate-pulse" />
+                <span>Selected_Projects_v2.0</span>
             </motion.div>
             <motion.h2 
               initial={{ opacity: 0, y: 10 }}
               whileInView={{ opacity: 1, y: 0 }}
               viewport={{ once: true }}
               transition={{ delay: 0.1 }}
-              className="text-3xl md:text-4xl font-black text-white leading-tight"
+              className="text-3xl md:text-5xl font-black text-white leading-tight"
             >
-               האחרונים <span className="text-transparent bg-clip-text bg-gradient-to-l from-cyan-400 to-blue-600">שלי</span>
+               האחרונים <span className="text-white relative inline-block">
+                 שלי
+                 <span className="absolute bottom-1 right-0 w-full h-1 bg-cyan-600 rounded-full" />
+               </span>
             </motion.h2>
         </div>
 
         <div 
-            className="relative w-full h-[380px] flex justify-center items-center perspective-[1200px]"
+            className="relative w-full h-[400px] flex justify-center items-center perspective-[1200px]"
             onMouseEnter={() => setIsAutoPlaying(false)}
             onMouseLeave={() => setIsAutoPlaying(true)}
         >
-            {/* Removed the colored background circle for sharp look */}
-
             {projects.map((project, index) => {
                 const style = getCardStyle(index);
                 const isActive = index === currentIndex;
@@ -110,11 +117,10 @@ export const PortfolioCarousel: React.FC = memo(() => {
                         animate={style}
                         transition={{
                             type: "spring",
-                            stiffness: 300,
-                            damping: 30,
-                            mass: 1
+                            stiffness: 200,
+                            damping: 20
                         }}
-                        className="absolute w-[300px] md:w-[420px] aspect-[4/3] rounded-2xl cursor-pointer will-change-transform transform-gpu"
+                        className="absolute w-[300px] md:w-[450px] aspect-[4/3] rounded-xl cursor-pointer will-change-transform transform-gpu"
                         style={{ transformStyle: 'preserve-3d' }}
                     >
                          <a
@@ -130,38 +136,56 @@ export const PortfolioCarousel: React.FC = memo(() => {
                             className="block w-full h-full focus:outline-none"
                             draggable="false"
                          >
-                            <div className={`relative w-full h-full bg-slate-900 border border-white/10 rounded-2xl overflow-hidden shadow-2xl transition-all duration-500 group ${isActive ? 'ring-1 ring-white/20 shadow-cyan-500/10' : ''}`}>
+                            {/* THE CUBE/CARD ITSELF */}
+                            <div className={`relative w-full h-full bg-[#050505] border border-white/5 rounded-xl overflow-hidden transition-all duration-500 group 
+                                ${isActive 
+                                    ? 'shadow-[0_0_50px_-10px_rgba(6,182,212,0.4)] border-cyan-500/40 ring-1 ring-cyan-500/20' 
+                                    : 'shadow-none opacity-50'}`
+                            }>
                                 
-                                <div className={`absolute inset-0 bg-gradient-to-br ${project.gradient} opacity-0 ${isActive ? 'opacity-10' : ''} transition-opacity duration-500`} />
-                                
+                                {/* Image Layer */}
                                 {project.image && (
                                     <img 
                                       src={project.image} 
                                       alt={project.title} 
                                       loading="lazy"
-                                      decoding="async"
-                                      className="absolute inset-0 w-full h-full object-cover transition-transform duration-700 group-hover:scale-110"
+                                      className={`absolute inset-0 w-full h-full object-cover transition-transform duration-700 ${isActive ? 'group-hover:scale-105' : ''}`}
                                       draggable="false"
                                     />
                                 )}
 
-                                <div className="absolute inset-0 bg-gradient-to-t from-slate-950 via-slate-950/40 to-transparent" />
+                                {/* Overlay Gradient - Stronger at bottom for text readability */}
+                                <div className="absolute inset-0 bg-gradient-to-t from-black via-black/50 to-transparent opacity-90" />
 
-                                <div className="absolute bottom-0 left-0 right-0 p-6 z-20 translate-y-2 group-hover:translate-y-0 transition-transform duration-300">
+                                {/* Glowing Border Animation (Active Only) */}
+                                {isActive && (
+                                    <div className="absolute inset-0 border-[1px] border-cyan-500/0 group-hover:border-cyan-500/50 transition-colors duration-500 rounded-xl pointer-events-none" />
+                                )}
+
+                                <div className="absolute bottom-0 left-0 right-0 p-8 z-20">
                                     <div className="flex justify-between items-end">
-                                        <div>
-                                            <span className="text-[10px] font-bold tracking-widest uppercase text-cyan-400 mb-2 block bg-black/80 w-fit px-2 py-1 rounded">
-                                                {project.category}
-                                            </span>
-                                            <h3 className="text-xl font-bold text-white mb-1">{project.title}</h3>
-                                            <p className="text-sm text-slate-300 line-clamp-1 opacity-0 group-hover:opacity-100 transition-opacity duration-300 delay-100">
+                                        <div className="text-right">
+                                            <div className="flex items-center gap-2 mb-2">
+                                                <span className="w-1.5 h-1.5 rounded-full bg-cyan-400 shadow-[0_0_5px_cyan]" />
+                                                <span className="text-[10px] font-bold tracking-wider uppercase text-cyan-200 font-mono">
+                                                    {project.category}
+                                                </span>
+                                            </div>
+                                            <h3 className="text-2xl font-black text-white mb-2">{project.title}</h3>
+                                            <p className={`text-sm text-slate-300 font-light transition-all duration-500 ${isActive ? 'opacity-100 translate-y-0' : 'opacity-0 translate-y-4'}`}>
                                                 {project.description}
                                             </p>
                                         </div>
+                                        
+                                        {/* Action Button */}
                                         <span 
-                                          className={`w-9 h-9 rounded-full flex items-center justify-center border border-white/20 transition-all duration-300 hover:scale-110 ${isActive ? 'bg-cyan-500 text-black border-transparent shadow-[0_0_15px_rgba(6,182,212,0.5)]' : 'bg-white/10 text-white hover:bg-white/20'}`}
+                                          className={`w-12 h-12 rounded-full flex items-center justify-center border transition-all duration-300
+                                            ${isActive 
+                                                ? 'bg-cyan-500 text-black border-cyan-400 shadow-[0_0_15px_rgba(6,182,212,0.6)] hover:scale-110 hover:shadow-[0_0_25px_rgba(6,182,212,0.8)]' 
+                                                : 'bg-white/5 border-white/10 text-slate-500'}`
+                                          }
                                         >
-                                            <ArrowUpRight size={16} strokeWidth={2.5} />
+                                            <ArrowUpRight size={20} strokeWidth={2.5} />
                                         </span>
                                     </div>
                                 </div>
@@ -172,17 +196,16 @@ export const PortfolioCarousel: React.FC = memo(() => {
             })}
         </div>
 
-        <div className="mt-6 flex items-center gap-6 relative z-20">
-            <div className="flex gap-3">
-                {projects.map((_, i) => (
-                    <button
-                        key={i}
-                        onClick={() => setCurrentIndex(i)}
-                        className={`h-1.5 rounded-full transition-all duration-300 ${i === currentIndex ? 'w-8 bg-cyan-500 shadow-[0_0_10px_rgba(6,182,212,0.5)]' : 'w-2 bg-slate-700 hover:bg-slate-600'}`}
-                        aria-label={`Go to project ${i + 1}`}
-                    />
-                ))}
-            </div>
+        {/* Indicators */}
+        <div className="mt-12 flex items-center gap-3 relative z-20">
+            {projects.map((_, i) => (
+                <button
+                    key={i}
+                    onClick={() => setCurrentIndex(i)}
+                    className={`h-1 rounded-full transition-all duration-300 ${i === currentIndex ? 'w-10 bg-cyan-500 shadow-[0_0_8px_cyan]' : 'w-2 bg-slate-800'}`}
+                    aria-label={`Go to project ${i + 1}`}
+                />
+            ))}
         </div>
 
       </div>

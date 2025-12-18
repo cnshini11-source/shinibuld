@@ -6,7 +6,6 @@ import { Header } from './components/Header';
 import { Hero } from './components/Hero'; 
 import { ScrollProgress } from './components/ScrollProgress';
 import { WhatsAppFloat } from './components/WhatsAppFloat';
-import { CinematicOverlay } from './components/CinematicOverlay';
 
 // --- Helper for Named Exports Lazy Loading ---
 const lazyLoad = (importFunc: Promise<any>, componentName: string) => {
@@ -23,10 +22,9 @@ const AccessibilityMenu = lazyLoad(import('./components/AccessibilityMenu'), 'Ac
 
 function App() {
   return (
-    <div className="bg-[#010206] min-h-screen text-white selection:bg-cyan-500/30 overflow-hidden relative">
+    <div className="bg-[#020617] min-h-screen text-white selection:bg-cyan-500/30 overflow-hidden relative">
       <ScrollProgress />
       <Header />
-      <CinematicOverlay />
       
       <main>
         <Hero />
