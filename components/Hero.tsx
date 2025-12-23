@@ -184,9 +184,24 @@ export const Hero: React.FC = () => {
                     </span>
                 </motion.h1>
 
-                <motion.p variants={itemVariants} className="text-lg md:text-xl text-slate-300 max-w-3xl mb-8 lg:mb-12 leading-relaxed relative z-10 font-light px-4 lg:px-0 rounded-3xl border-r-2 border-cyan-500/30 pr-4">
-                    דפי נחיתה ואתרי תדמית חכמים עם אנימציות מתקדמות, <span className="font-bold text-white">AI מובנה</span> ומשפך שיווקי מדויק שמייצר לידים ולקוחות באופן אוטומטי – 24/7.
-                </motion.p>
+                {/* --- TIGHT CHARISMATIC TEXT LAYOUT --- */}
+                <motion.div 
+                    variants={itemVariants} 
+                    className="flex flex-col gap-2 mb-8 lg:mb-12 relative z-10 max-w-3xl"
+                >
+                    <p className="text-xl md:text-2xl font-medium text-white leading-tight">
+                        דפי נחיתה ואתרים שעובדים ומביאים תכל׳ס לקוחות.
+                    </p>
+                    
+                    <div className="flex flex-col text-lg md:text-2xl text-slate-300 font-light space-y-1">
+                        <p>
+                            עיצוב מדויק, חוויית משתמש מבוססת <span className="font-bold text-cyan-400">AI</span>
+                        </p>
+                        <p>
+                            ומערכת שממירה לידים לכסף — <span className="font-bold text-white tracking-widest drop-shadow-[0_0_10px_rgba(255,255,255,0.3)]">24/7</span>
+                        </p>
+                    </div>
+                </motion.div>
 
                 <motion.div variants={itemVariants} className="flex flex-col sm:flex-row gap-6 relative z-10">
                     <a href="https://wa.me/972538227778" target="_blank" rel="noopener noreferrer" aria-label="בדיקת התאמה בחינם בווצאפ">
