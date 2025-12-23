@@ -73,7 +73,7 @@ export const WhyChooseMe: React.FC = () => {
   };
 
   return (
-    <section id="why-us" className="pt-0 pb-24 md:pb-32 relative overflow-hidden bg-[#020617]">
+    <section id="why-us" className="pt-12 md:pt-24 pb-24 md:pb-32 relative overflow-hidden bg-[#020617]">
       {/* BACKGROUND: Deep Black/Gray Gradient */}
       <div className="absolute inset-0 z-0 pointer-events-none">
           <div className="absolute inset-0 bg-gradient-to-b from-black via-slate-950 to-black" />
@@ -145,7 +145,27 @@ export const WhyChooseMe: React.FC = () => {
                             <div className="absolute inset-0 rounded-2xl border border-cyan-400 opacity-0 scale-50 rotate-45 group-hover:opacity-100 group-hover:scale-100 group-hover:rotate-0 transition-all duration-500" />
                             
                             <div className="w-14 h-14 flex items-center justify-center bg-[#111] border border-white/10 text-slate-400 rounded-2xl relative z-10 group-hover:bg-cyan-950/50 group-hover:text-cyan-400 group-hover:border-cyan-500/30 transition-all duration-300 shadow-xl">
-                                <reason.icon className="w-6 h-6 transform group-hover:scale-110 group-hover:drop-shadow-[0_0_8px_cyan] transition-all duration-300" />
+                                {/* ALIVE ANIMATION WRAPPER */}
+                                <motion.div
+                                    animate={{ 
+                                        scale: [1, 1.15, 1],
+                                        rotate: [0, 5, -5, 0],
+                                        filter: [
+                                            "drop-shadow(0 0 0px rgba(6,182,212,0))", 
+                                            "drop-shadow(0 0 8px rgba(6,182,212,0.4))", 
+                                            "drop-shadow(0 0 0px rgba(6,182,212,0))"
+                                        ]
+                                    }}
+                                    transition={{ 
+                                        duration: 4,
+                                        repeat: Infinity,
+                                        ease: "easeInOut",
+                                        delay: index * 0.2
+                                    }}
+                                    className="flex items-center justify-center"
+                                >
+                                    <reason.icon className="w-6 h-6 transform transition-all duration-300" />
+                                </motion.div>
                             </div>
                         </div>
 
