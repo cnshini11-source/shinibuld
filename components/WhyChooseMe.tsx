@@ -125,27 +125,43 @@ export const WhyChooseMe: React.FC = () => {
                 className="group relative"
                 style={{ transformStyle: "preserve-3d" }}
               >
-                {/* Rounded Card Container */}
-                <div className="bg-slate-900/40 border border-white/5 p-6 md:p-8 rounded-[2rem] hover:bg-slate-900/60 hover:border-cyan-500/30 transition-all duration-300 relative overflow-hidden">
+                {/* NEW DRAMATIC CARD DESIGN */}
+                <div className="relative bg-[#0a0a0c] border border-white/5 p-6 md:p-8 rounded-[2rem] overflow-hidden transition-all duration-500 group-hover:border-cyan-500/50 group-hover:shadow-[0_0_50px_-10px_rgba(6,182,212,0.3)]">
                     
-                    {/* Hover Glow Effect inside card */}
-                    <div className="absolute inset-0 bg-gradient-to-r from-cyan-500/0 via-cyan-500/5 to-cyan-500/0 translate-x-[-150%] group-hover:translate-x-[150%] transition-transform duration-700 ease-in-out skew-x-12" />
+                    {/* 1. Holographic Grid Background (Reveals on Hover) */}
+                    <div className="absolute inset-0 opacity-0 group-hover:opacity-20 transition-opacity duration-700 pointer-events-none">
+                        <div className="absolute inset-0 bg-[linear-gradient(rgba(6,182,212,0.5)_1px,transparent_1px),linear-gradient(90deg,rgba(6,182,212,0.5)_1px,transparent_1px)] bg-[size:20px_20px] [transform:perspective(500px)_rotateX(60deg)] origin-bottom" />
+                    </div>
+
+                    {/* 2. Moving Spotlight / Plasma Leak */}
+                    <div className="absolute -bottom-20 -right-20 w-64 h-64 bg-cyan-500/20 blur-[80px] rounded-full opacity-0 group-hover:opacity-100 transition-opacity duration-700" />
+                    <div className="absolute top-0 left-0 w-full h-[1px] bg-gradient-to-r from-transparent via-cyan-500 to-transparent translate-x-[-100%] group-hover:translate-x-[100%] transition-transform duration-1000 ease-in-out" />
 
                     <div className="relative z-10 flex flex-col sm:flex-row gap-6 items-start">
-                        {/* Rounded Icon Box */}
-                        <div className="w-14 h-14 flex items-center justify-center bg-cyan-950/30 border border-cyan-500/20 text-cyan-400 rounded-2xl group-hover:text-white group-hover:bg-cyan-500 group-hover:border-cyan-400 transition-all duration-300 shadow-[0_0_15px_rgba(6,182,212,0.1)] group-hover:shadow-[0_0_25px_rgba(6,182,212,0.5)]">
-                            <reason.icon className="w-6 h-6 transform group-hover:scale-110 transition-transform duration-300" />
+                        
+                        {/* 3. Tech-Reactor Icon Box */}
+                        <div className="relative">
+                            {/* Reactor Glow Ring */}
+                            <div className="absolute inset-0 rounded-2xl border border-cyan-400 opacity-0 scale-50 rotate-45 group-hover:opacity-100 group-hover:scale-100 group-hover:rotate-0 transition-all duration-500" />
+                            
+                            <div className="w-14 h-14 flex items-center justify-center bg-[#111] border border-white/10 text-slate-400 rounded-2xl relative z-10 group-hover:bg-cyan-950/50 group-hover:text-cyan-400 group-hover:border-cyan-500/30 transition-all duration-300 shadow-xl">
+                                <reason.icon className="w-6 h-6 transform group-hover:scale-110 group-hover:drop-shadow-[0_0_8px_cyan] transition-all duration-300" />
+                            </div>
                         </div>
 
                         <div className="text-right flex-1">
-                            <h3 className="text-2xl font-black text-white mb-2 group-hover:text-cyan-400 transition-colors">
+                            <h3 className="text-2xl font-black text-white mb-2 group-hover:text-cyan-400 transition-colors duration-300 drop-shadow-lg">
                                 {reason.title}
                             </h3>
-                            <p className="text-slate-400 font-light leading-relaxed text-base group-hover:text-slate-300 transition-colors">
+                            <p className="text-slate-400 font-light leading-relaxed text-base group-hover:text-slate-200 transition-colors duration-300">
                                 {reason.desc}
                             </p>
                         </div>
                     </div>
+
+                    {/* 4. Corner Accents (Tech Feel) */}
+                    <div className="absolute top-4 right-4 w-2 h-2 border-t border-r border-white/20 rounded-tr-sm opacity-50 group-hover:border-cyan-500 group-hover:opacity-100 transition-all duration-300" />
+                    <div className="absolute bottom-4 left-4 w-2 h-2 border-b border-l border-white/20 rounded-bl-sm opacity-50 group-hover:border-cyan-500 group-hover:opacity-100 transition-all duration-300" />
                 </div>
               </motion.div>
             ))}
